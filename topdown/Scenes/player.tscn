@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b4yirs1771rh6"]
+
+[ext_resource type="Script" uid="uid://c72jkt63vy1vd" path="res://Scripts/player.gd" id="1_cvnsp"]
+[ext_resource type="Texture2D" uid="uid://betlm5bno3fwk" path="res://Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Idle.png" id="1_v0iea"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
+radius = 15.0
+height = 56.0
+
+[node name="Player" type="CharacterBody2D"]
+collision_layer = 2
+collision_mask = 7
+script = ExtResource("1_cvnsp")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -34)
+texture = ExtResource("1_v0iea")
+hframes = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -35)
+shape = SubResource("CapsuleShape2D_cvnsp")
