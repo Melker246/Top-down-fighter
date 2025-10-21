@@ -15,11 +15,11 @@ func _physics_process(delta: float) -> void:
 		RUN:
 			_run_state(delta)
 		ATTACK:
-			pass
+			_attack_state(delta)
 		GUARD:
-			pass
+			_guard_state(delta)
 		DEAD:
-			pass
+			_dead_state(delta)
 
 ################ HELP FUNCTIONS
 func _movement(delta, input) -> void:
@@ -35,13 +35,17 @@ func _idle_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up", "down")
 	input.x = Input.get_axis("left", "right")
-	if input != Vector2(0, 0):
-		_enter_run_state()
 	_movement(delta, input)
-
+	if velocity != Vector2(0, 0):
+		_enter_run_state()
 
 func _run_state(delta) -> void:
-	pass
+	var input = Vector2(0, 0)
+	input.y = Input.get_axis("up", "down")
+	input.x = Input.get_axis("left", "right")
+	_movement(delta, input)
+	if velocity == Vector2(0, 0):
+		_enter_idle_state()
 
 func _attack_state(delta) -> void:
 	pass
@@ -55,10 +59,10 @@ func _dead_state(delta) -> void:
 
 ################ ENTER STATE FUNCTIONS ###############
 func _enter_idle_state() -> void:
-	pass
+	state = IDLE
 
 func _enter_run_state() -> void:
-	pass
+	state = RUN
 
 func _enter_attack_state() -> void:
 	pass
