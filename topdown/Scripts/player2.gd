@@ -52,28 +52,28 @@ func _movement(delta, input) -> void:
 ################ STATE FUNCTIONS ################
 func _idle_state(delta) -> void:
 	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	input.y = Input.get_axis("up2", "down2")
+	input.x = Input.get_axis("left2", "right2")
 	_movement(delta, input)
 	if velocity != Vector2(0, 0):
 		_enter_run_state()
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
 
 func _run_state(delta) -> void:
 	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	input.y = Input.get_axis("up2", "down2")
+	input.x = Input.get_axis("left2", "right2")
 	_movement(delta, input)
 	if velocity == Vector2(0, 0):
 		_enter_idle_state()
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
 
 func _attack_state(delta) -> void:
 	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	input.y = Input.get_axis("up2", "down2")
+	input.x = Input.get_axis("left2", "right2")
 	_movement(delta, input)
 	if body_inside_attack:
 		attacked_body.enter_dead_state()
@@ -111,7 +111,7 @@ func _enter_guard_state() -> void:
 	pass
 
 func enter_dead_state() -> void:
-	print("1död")
+	print("2död")
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
