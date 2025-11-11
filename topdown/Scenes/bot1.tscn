@@ -1,11 +1,11 @@
-[gd_scene load_steps=16 format=3 uid="uid://b4yirs1771rh6"]
+[gd_scene load_steps=16 format=3 uid="uid://b2kcay6rioiku"]
 
-[ext_resource type="Script" uid="uid://c72jkt63vy1vd" path="res://Scripts/player.gd" id="1_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://betlm5bno3fwk" path="res://Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Idle.png" id="1_v0iea"]
-[ext_resource type="Texture2D" uid="uid://fpurt2un1b0o" path="res://Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Attack1.png" id="2_cvnsp"]
-[ext_resource type="Texture2D" uid="uid://bmjirtlomkbqj" path="res://Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Attack2.png" id="2_vgqql"]
-[ext_resource type="Texture2D" uid="uid://dqtw5tak13sis" path="res://Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Run.png" id="5_fkybt"]
-[ext_resource type="Texture2D" uid="uid://ckw32gvrwx6u5" path="res://Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Guard.png" id="6_x3wgy"]
+[ext_resource type="Script" uid="uid://djcfomwxtyrj" path="res://Scripts/bot_1.gd" id="1_mxhb6"]
+[ext_resource type="Texture2D" uid="uid://bvwj8e2tia821" path="res://Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Attack1.png" id="2_pfx6o"]
+[ext_resource type="Texture2D" uid="uid://bxfb4k5qtlfpx" path="res://Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Attack2.png" id="3_mxhb6"]
+[ext_resource type="Texture2D" uid="uid://xq61xjgfldf" path="res://Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Idle.png" id="4_f0wpm"]
+[ext_resource type="Texture2D" uid="uid://bis5gi5dg77gf" path="res://Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Guard.png" id="5_gxxka"]
+[ext_resource type="Texture2D" uid="uid://bo1u5xmd3ul8c" path="res://Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Run.png" id="6_gvf2u"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
 radius = 15.0
@@ -51,7 +51,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_v0iea")]
+"values": [ExtResource("4_f0wpm")]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -115,23 +115,23 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.4),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [ExtResource("2_cvnsp"), ExtResource("2_vgqql")]
+"values": [ExtResource("2_pfx6o"), ExtResource("3_mxhb6")]
 }
 
-[sub_resource type="Animation" id="Animation_x3wgy"]
+[sub_resource type="Animation" id="Animation_8sl0u"]
 resource_name = "death"
 length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:skew")
+tracks/0/path = NodePath("Sprite2D:hframes")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, -1.16937]
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -143,19 +143,19 @@ tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_v0iea")]
+"values": [ExtResource("4_f0wpm")]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("Sprite2D:hframes")
+tracks/2/path = NodePath("Sprite2D:skew")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [8]
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -1.16937]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -170,7 +170,7 @@ tracks/3/keys = {
 "values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_3smsa"]
+[sub_resource type="Animation" id="Animation_xrga1"]
 resource_name = "guard"
 length = 0.6
 loop_mode = 1
@@ -184,7 +184,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("6_x3wgy")]
+"values": [ExtResource("5_gxxka")]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -248,7 +248,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_v0iea")]
+"values": [ExtResource("4_f0wpm")]
 }
 
 [sub_resource type="Animation" id="Animation_vgqql"]
@@ -289,27 +289,27 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("5_fkybt")]
+"values": [ExtResource("6_gvf2u")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vgqql"]
 _data = {
 &"RESET": SubResource("Animation_6t5aa"),
 &"attack": SubResource("Animation_fkybt"),
-&"death": SubResource("Animation_x3wgy"),
-&"guard": SubResource("Animation_3smsa"),
+&"death": SubResource("Animation_8sl0u"),
+&"guard": SubResource("Animation_xrga1"),
 &"idle": SubResource("Animation_cvnsp"),
 &"run": SubResource("Animation_vgqql")
 }
 
-[node name="Player" type="CharacterBody2D"]
-collision_layer = 2
+[node name="bot2" type="CharacterBody2D"]
+collision_layer = 8
 collision_mask = 15
-script = ExtResource("1_cvnsp")
+script = ExtResource("1_mxhb6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(0, -34)
-texture = ExtResource("1_v0iea")
+texture = ExtResource("4_f0wpm")
 hframes = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -319,7 +319,7 @@ shape = SubResource("CapsuleShape2D_cvnsp")
 [node name="AttackArea" type="Area2D" parent="."]
 position = Vector2(29, -30)
 collision_layer = 0
-collision_mask = 12
+collision_mask = 6
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 shape = SubResource("CapsuleShape2D_6t5aa")
@@ -340,4 +340,4 @@ one_shot = true
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
-[connection signal="timeout" from="GuardTimer" to="." method="_on_guard_t_imer_timeout"]
+[connection signal="timeout" from="GuardTimer" to="." method="_on_guard_timer_timeout"]

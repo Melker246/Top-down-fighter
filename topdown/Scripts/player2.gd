@@ -1,17 +1,26 @@
 extends CharacterBody2D
 
+signal player2_dead
+
 const MAX_SPEED = 300
 const ACC = 800
+const ATTACK_MOVEMENT_DEBUFF = 0.8
+const GUARD_MOVEMENT_DEBUFF = 0.2
 
 @onready var attack_timer: Timer = $AttackTimer
+@onready var guard_timer: Timer = $GuardTimer
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
+
+var hp = 100
 
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
 var body_inside_attack = false
 var attacked_body = 0
+var can_attack = true
+var guard_ongoing = false
 
 enum {IDLE, RUN, ATTACK, GUARD, DEAD}
 var state = IDLE
@@ -35,12 +44,12 @@ func _physics_process(delta: float) -> void:
 			_dead_state(delta)
 
 ################ HELP FUNCTIONS
-func _movement(delta, input) -> void:
+func _movement(delta, input, speedkoefficent) -> void:
 	if input.x != 0 and input.y != 0:
 		var pythagorean = 1/sqrt(input.x**2 + input.y**2)
 		input = input * pythagorean
-	velocity.x = move_toward(velocity.x, input.x*MAX_SPEED, ACC*delta)
-	velocity.y = move_toward(velocity.y, input.y*MAX_SPEED, ACC*delta)
+	velocity.x = move_toward(velocity.x, input.x*MAX_SPEED*speedkoefficent, ACC*delta)
+	velocity.y = move_toward(velocity.y, input.y*MAX_SPEED*speedkoefficent, ACC*delta)
 	move_and_slide()
 	if velocity.x < 0:
 		sprite.flip_h = true
@@ -49,44 +58,73 @@ func _movement(delta, input) -> void:
 		sprite.flip_h = false
 		attack_area.position.x = attack_area_base_x_pos
 
+func _hp_control() -> bool: #Dead = true, alive = false
+	if hp <= 0:
+		return true
+	else:
+		return false
+
 ################ STATE FUNCTIONS ################
 func _idle_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input)
+	_movement(delta, input, 1)
+	if _hp_control():
+		enter_dead_state()
 	if velocity != Vector2(0, 0):
 		_enter_run_state()
 	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
+	if Input.is_action_just_pressed("guard2"):
+		_enter_guard_state()
 
 func _run_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input)
+	_movement(delta, input, 1)
+	if _hp_control():
+		enter_dead_state()
 	if velocity == Vector2(0, 0):
 		_enter_idle_state()
 	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
+	if Input.is_action_just_pressed("guard2"):
+		_enter_guard_state()
 
 func _attack_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input)
-	if body_inside_attack:
-		attacked_body.enter_dead_state()
-		body_inside_attack = false
+	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF)
+	if body_inside_attack and can_attack and attack_ongoing:
+		can_attack = false
+		if not attacked_body.guard_ongoing:
+			attacked_body.hp -= 50
+	if _hp_control():
+		enter_dead_state()
 	if not attack_ongoing:
 		if velocity == Vector2(0,0):
 			_enter_idle_state()
 		else:
 			_enter_run_state()
-	
+	if Input.is_action_just_pressed("guard2"):
+		_enter_guard_state()
+
 
 func _guard_state(delta) -> void:
-	pass
+	var input = Vector2(0, 0)
+	input.y = Input.get_axis("up", "down")
+	input.x = Input.get_axis("left", "right")
+	_movement(delta, input, GUARD_MOVEMENT_DEBUFF)
+	if _hp_control():
+		enter_dead_state()
+	if not guard_ongoing:
+		if velocity == Vector2(0,0):
+			_enter_idle_state()
+		else:
+			_enter_run_state()
 
 func _dead_state(delta) -> void:
 	pass
@@ -108,10 +146,17 @@ func _enter_attack_state() -> void:
 	anim.play("attack")
 
 func _enter_guard_state() -> void:
-	pass
+	state = GUARD
+	guard_ongoing = true
+	guard_timer.start()
+	anim.play("guard")
 
 func enter_dead_state() -> void:
-	print("2död")
+	state = DEAD
+	anim.play("death")
+	await anim.animation_finished
+	emit_signal("player2_dead")
+	queue_free()
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
@@ -124,3 +169,7 @@ func _on_attack_area_body_exited(body: Node2D) -> void:
 
 func _on_attack_timer_timeout() -> void:
 	attack_ongoing = false
+	can_attack = true
+
+func _on_guard_timer_timeout() -> void:
+	guard_ongoing = false

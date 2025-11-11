@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-signal player1_dead
+signal bot1_dead
 
 const MAX_SPEED = 300
 const ACC = 800
@@ -12,6 +12,9 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
+
+var bot_movement_input = Vector2(0,0)
+var bot_attack_or_guard_input = 0
 
 var hp = 100
 
@@ -43,7 +46,7 @@ func _physics_process(delta: float) -> void:
 		DEAD:
 			_dead_state(delta)
 
-################ HELP FUNCTIONS ################
+################ HELP FUNCTIONS
 func _movement(delta, input, speedkoefficent) -> void:
 	if input.x != 0 and input.y != 0:
 		var pythagorean = 1/sqrt(input.x**2 + input.y**2)
@@ -64,40 +67,33 @@ func _hp_control() -> bool: #Dead = true, alive = false
 	else:
 		return false
 
-
 ################ STATE FUNCTIONS ################
 func _idle_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	var input = bot_movement_input
 	_movement(delta, input, 1)
 	if _hp_control():
 		enter_dead_state()
 	if velocity != Vector2(0, 0):
 		_enter_run_state()
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
-	if Input.is_action_just_pressed("guard"):
+	if Input.is_action_just_pressed("guard2"):
 		_enter_guard_state()
 
 func _run_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	var input = bot_movement_input
 	_movement(delta, input, 1)
 	if _hp_control():
 		enter_dead_state()
 	if velocity == Vector2(0, 0):
 		_enter_idle_state()
-	if Input.is_action_just_pressed("attack"):
+	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
-	if Input.is_action_just_pressed("guard"):
+	if Input.is_action_just_pressed("guard2"):
 		_enter_guard_state()
 
 func _attack_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	var input = bot_movement_input
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF)
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
@@ -110,14 +106,12 @@ func _attack_state(delta) -> void:
 			_enter_idle_state()
 		else:
 			_enter_run_state()
-	if Input.is_action_just_pressed("guard"):
+	if Input.is_action_just_pressed("guard2"):
 		_enter_guard_state()
 
 
 func _guard_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up", "down")
-	input.x = Input.get_axis("left", "right")
+	var input = bot_movement_input
 	_movement(delta, input, GUARD_MOVEMENT_DEBUFF)
 	if _hp_control():
 		enter_dead_state()
@@ -126,7 +120,6 @@ func _guard_state(delta) -> void:
 			_enter_idle_state()
 		else:
 			_enter_run_state()
-	
 
 func _dead_state(delta) -> void:
 	pass
@@ -157,7 +150,7 @@ func enter_dead_state() -> void:
 	state = DEAD
 	anim.play("death")
 	await anim.animation_finished
-	emit_signal("player1_dead")
+	emit_signal("bot1_dead")
 	queue_free()
 
 
@@ -173,5 +166,5 @@ func _on_attack_timer_timeout() -> void:
 	attack_ongoing = false
 	can_attack = true
 
-func _on_guard_t_imer_timeout() -> void:
+func _on_guard_timer_timeout() -> void:
 	guard_ongoing = false
