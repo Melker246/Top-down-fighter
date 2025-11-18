@@ -12,8 +12,8 @@ radius = 15.0
 height = 44.0
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6t5aa"]
-radius = 28.0
-height = 68.0
+radius = 37.0
+height = 96.0
 
 [sub_resource type="Animation" id="Animation_6t5aa"]
 length = 0.001
@@ -304,7 +304,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D"]
 collision_layer = 2
-collision_mask = 15
+collision_mask = 31
 script = ExtResource("1_cvnsp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -317,11 +317,12 @@ position = Vector2(0, -32)
 shape = SubResource("CapsuleShape2D_cvnsp")
 
 [node name="AttackArea" type="Area2D" parent="."]
-position = Vector2(29, -30)
+position = Vector2(29, -32)
 collision_layer = 0
-collision_mask = 12
+collision_mask = 60
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
+position = Vector2(-10, 6)
 shape = SubResource("CapsuleShape2D_6t5aa")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -340,4 +341,4 @@ one_shot = true
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
-[connection signal="timeout" from="GuardTimer" to="." method="_on_guard_t_imer_timeout"]
+[connection signal="timeout" from="GuardTimer" to="." method="_on_guard_timer_timeout"]

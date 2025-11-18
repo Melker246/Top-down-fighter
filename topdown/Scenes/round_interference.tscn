@@ -1,0 +1,219 @@
+[gd_scene load_steps=15 format=3 uid="uid://f4g4x50pgnai"]
+
+[ext_resource type="Texture2D" uid="uid://cf4beiomvwl1g" path="res://Tiny Swords (Free Pack)/Terrain/Water Background color.png" id="1_4gg62"]
+[ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://canterbury/Canterbury.ttf" id="2_ob8ux"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ob8ux"]
+bg_color = Color(1, 0.54902, 0.54902, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0.184314, 0.184314, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1ert4"]
+bg_color = Color(1, 0.27451, 0.27451, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0.184314, 0.184314, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_5w53i"]
+bg_color = Color(1, 0.470588, 0.470588, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0.184314, 0.184314, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_j1ffe"]
+bg_color = Color(0.54902, 0.54902, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.184314, 0.184314, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1plnc"]
+bg_color = Color(0.27451, 0.27451, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.184314, 0.184314, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_qhjqc"]
+bg_color = Color(0.470588, 0.470588, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.184314, 0.184314, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_synmk"]
+bg_color = Color(1, 0.54902, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0.184314, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m3vqo"]
+bg_color = Color(1, 0.27451, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0.184314, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_f7d76"]
+bg_color = Color(1, 0.470588, 1, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(1, 0.184314, 1, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_3i2xy"]
+bg_color = Color(0.54902, 0.54902, 0.54902, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.184314, 0.184314, 0.184314, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a7nd1"]
+bg_color = Color(0.27451, 0.27451, 0.27451, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.184314, 0.184314, 0.184314, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ou1bc"]
+bg_color = Color(0.470588, 0.470588, 0.470588, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.184314, 0.184314, 0.184314, 1)
+corner_radius_top_left = 60
+corner_radius_top_right = 60
+corner_radius_bottom_right = 60
+corner_radius_bottom_left = 60
+
+[node name="Round_interference" type="Node2D"]
+
+[node name="Background" type="CanvasLayer" parent="."]
+layer = -50
+
+[node name="Sprite2D" type="Sprite2D" parent="Background"]
+scale = Vector2(30, 30)
+texture = ExtResource("1_4gg62")
+centered = false
+
+[node name="Menu" type="CanvasLayer" parent="."]
+layer = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Menu"]
+offset_left = 200.0
+offset_top = 200.0
+offset_right = 1720.0
+offset_bottom = 550.0
+theme_override_constants/separation = 40
+
+[node name="HealthButton" type="Button" parent="Menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_ob8ux")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("StyleBoxFlat_ob8ux")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1ert4")
+theme_override_styles/normal = SubResource("StyleBoxFlat_5w53i")
+text = "Health
++50% hp
+"
+
+[node name="AttackButton" type="Button" parent="Menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_ob8ux")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("StyleBoxFlat_j1ffe")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1plnc")
+theme_override_styles/normal = SubResource("StyleBoxFlat_qhjqc")
+text = "Attack
++50% damage
+"
+
+[node name="SpeedButton" type="Button" parent="Menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_ob8ux")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("StyleBoxFlat_synmk")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_m3vqo")
+theme_override_styles/normal = SubResource("StyleBoxFlat_f7d76")
+text = "Speed
++20% speed
+"
+
+[node name="TeamButton" type="Button" parent="Menu/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_fonts/font = ExtResource("2_ob8ux")
+theme_override_font_sizes/font_size = 60
+theme_override_styles/hover = SubResource("StyleBoxFlat_3i2xy")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_a7nd1")
+theme_override_styles/normal = SubResource("StyleBoxFlat_ou1bc")
+text = "Team
++archer tower
+"
+icon_alignment = 1
+vertical_icon_alignment = 2
+expand_icon = true

@@ -14,6 +14,7 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var attack_area: Area2D = $AttackArea
 
 var hp = 100
+var team = 1
 
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
@@ -101,8 +102,11 @@ func _attack_state(delta) -> void:
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF)
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
-		if not attacked_body.guard_ongoing:
-			attacked_body.hp -= 50
+		if attacked_body is House:
+			attacked_body.queue_free()
+		else:
+			if not attacked_body.guard_ongoing:
+				attacked_body.hp -= 50
 	if _hp_control():
 		enter_dead_state()
 	if not attack_ongoing:
@@ -173,5 +177,5 @@ func _on_attack_timer_timeout() -> void:
 	attack_ongoing = false
 	can_attack = true
 
-func _on_guard_t_imer_timeout() -> void:
+func _on_guard_timer_timeout() -> void:
 	guard_ongoing = false

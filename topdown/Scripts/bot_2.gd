@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-signal player2_dead
+signal bot2_dead
 
 const MAX_SPEED = 300
 const ACC = 800
@@ -13,13 +13,16 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
 
+var bot_movement_input = Vector2(0,0)
+var bot_attack_or_guard_input = 0
+
 var hp = 100
-var team = 2
+var team = 4
 
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
 var body_inside_attack = false
-var attacked_body = 0
+var attacked_body = null
 var can_attack = true
 var guard_ongoing = false
 
@@ -67,37 +70,31 @@ func _hp_control() -> bool: #Dead = true, alive = false
 
 ################ STATE FUNCTIONS ################
 func _idle_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up2", "down2")
-	input.x = Input.get_axis("left2", "right2")
+	var input = bot_movement_input
 	_movement(delta, input, 1)
 	if _hp_control():
 		enter_dead_state()
 	if velocity != Vector2(0, 0):
 		_enter_run_state()
-	if Input.is_action_just_pressed("attack2"):
+	if bot_attack_or_guard_input == 1:
 		_enter_attack_state()
-	if Input.is_action_just_pressed("guard2"):
+	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
 
 func _run_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up2", "down2")
-	input.x = Input.get_axis("left2", "right2")
+	var input = bot_movement_input
 	_movement(delta, input, 1)
 	if _hp_control():
 		enter_dead_state()
 	if velocity == Vector2(0, 0):
 		_enter_idle_state()
-	if Input.is_action_just_pressed("attack2"):
+	if bot_attack_or_guard_input == 1:
 		_enter_attack_state()
-	if Input.is_action_just_pressed("guard2"):
+	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
 
 func _attack_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up2", "down2")
-	input.x = Input.get_axis("left2", "right2")
+	var input = bot_movement_input
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF)
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
@@ -113,14 +110,12 @@ func _attack_state(delta) -> void:
 			_enter_idle_state()
 		else:
 			_enter_run_state()
-	if Input.is_action_just_pressed("guard2"):
+	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
 
 
 func _guard_state(delta) -> void:
-	var input = Vector2(0, 0)
-	input.y = Input.get_axis("up2", "down2")
-	input.x = Input.get_axis("left2", "right2")
+	var input = bot_movement_input
 	_movement(delta, input, GUARD_MOVEMENT_DEBUFF)
 	if _hp_control():
 		enter_dead_state()
@@ -159,7 +154,7 @@ func enter_dead_state() -> void:
 	state = DEAD
 	anim.play("death")
 	await anim.animation_finished
-	emit_signal("player2_dead")
+	emit_signal("bot2_dead")
 	queue_free()
 
 
@@ -169,7 +164,7 @@ func _on_attack_area_body_entered(body: Node2D) -> void:
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	body_inside_attack = false
-	attacked_body = 0
+	attacked_body = null
 
 func _on_attack_timer_timeout() -> void:
 	attack_ongoing = false

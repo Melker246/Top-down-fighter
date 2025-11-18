@@ -88,6 +88,9 @@ guard2={
 2d_physics/layer_1="world"
 2d_physics/layer_2="player1"
 2d_physics/layer_3="player2"
+2d_physics/layer_4="bot1"
+2d_physics/layer_5="bot2"
+2d_physics/layer_6="house"
 
 [rendering]
 

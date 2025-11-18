@@ -17,6 +17,7 @@ var bot_movement_input = Vector2(0,0)
 var bot_attack_or_guard_input = 0
 
 var hp = 100
+var team = 3
 
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
@@ -75,9 +76,9 @@ func _idle_state(delta) -> void:
 		enter_dead_state()
 	if velocity != Vector2(0, 0):
 		_enter_run_state()
-	if Input.is_action_just_pressed("attack2"):
+	if bot_attack_or_guard_input == 1:
 		_enter_attack_state()
-	if Input.is_action_just_pressed("guard2"):
+	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
 
 func _run_state(delta) -> void:
@@ -87,9 +88,9 @@ func _run_state(delta) -> void:
 		enter_dead_state()
 	if velocity == Vector2(0, 0):
 		_enter_idle_state()
-	if Input.is_action_just_pressed("attack2"):
+	if bot_attack_or_guard_input == 1:
 		_enter_attack_state()
-	if Input.is_action_just_pressed("guard2"):
+	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
 
 func _attack_state(delta) -> void:
@@ -97,8 +98,11 @@ func _attack_state(delta) -> void:
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF)
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
-		if not attacked_body.guard_ongoing:
-			attacked_body.hp -= 50
+		if attacked_body is House:
+			attacked_body.queue_free()
+		else:
+			if not attacked_body.guard_ongoing:
+				attacked_body.hp -= 50
 	if _hp_control():
 		enter_dead_state()
 	if not attack_ongoing:
@@ -106,7 +110,7 @@ func _attack_state(delta) -> void:
 			_enter_idle_state()
 		else:
 			_enter_run_state()
-	if Input.is_action_just_pressed("guard2"):
+	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
 
 
