@@ -102,7 +102,8 @@ func _attack_state(delta) -> void:
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
 		if attacked_body is House:
-			attacked_body.queue_free()
+			if team != attacked_body.team:
+				attacked_body.queue_free()
 		else:
 			if not attacked_body.guard_ongoing:
 				attacked_body.hp -= 50

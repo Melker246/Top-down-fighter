@@ -16,6 +16,13 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 var bot_movement_input = Vector2(0,0)
 var bot_attack_or_guard_input = 0
 
+var player1_pos = Vector2(0,0)
+var player2_pos = Vector2(0,0)
+var bot1_pos = Vector2(0,0)
+var distance_to_player1 = 0
+var distance_to_player2 = 0
+var distance_to_bot1 = 0
+
 var hp = 100
 var team = 4
 
@@ -35,6 +42,7 @@ func _ready() -> void:
 
 ################# STATE MACHINE #################
 func _physics_process(delta: float) -> void:
+	get_input()
 	match state:
 		IDLE:
 			_idle_state(delta)
@@ -68,6 +76,57 @@ func _hp_control() -> bool: #Dead = true, alive = false
 	else:
 		return false
 
+func get_input():
+	if player1_pos == null and player2_pos == null and bot1_pos == null:
+		bot_movement_input = Vector2(0,0)
+		bot_attack_or_guard_input = 0
+	else:
+		if player1_pos != null:
+			distance_to_player1 = sqrt((player1_pos.x-position.x)**2+(player1_pos.y-position.y)**2)
+		else:
+			distance_to_player1 = 4095
+		if player2_pos != null:
+			distance_to_player2 = sqrt((player2_pos.x-position.x)**2+(player2_pos.y-position.y)**2)
+		else:
+			distance_to_player2 = 4095
+		if bot1_pos != null:
+			distance_to_bot1 = sqrt((bot1_pos.x-position.x)**2+(bot1_pos.y-position.y)**2)
+		else:
+			distance_to_bot1 = 4095
+		if distance_to_player1 < distance_to_player2 and distance_to_player1 < distance_to_bot1:
+			if distance_to_player1 >30:
+				bot_movement_input = Vector2(player1_pos.x-position.x, player1_pos.y-position.y)
+			else:
+				bot_movement_input = Vector2(0,0)
+			if distance_to_player1 < 70:
+				bot_attack_or_guard_input = 1
+			elif distance_to_player1 < 100:
+				bot_attack_or_guard_input = -1
+			else:
+				bot_attack_or_guard_input = 0
+		elif distance_to_player2 < distance_to_bot1:
+			if distance_to_player2 > 30:
+				bot_movement_input = Vector2(player2_pos.x-position.x, player2_pos.y-position.y)
+			else:
+				bot_movement_input = Vector2(0,0)
+			if distance_to_player2 < 70:
+				bot_attack_or_guard_input = 1
+			elif distance_to_player2 < 100:
+				bot_attack_or_guard_input = -1
+			else:
+				bot_attack_or_guard_input = 0
+		else:
+			if distance_to_bot1 > 30:
+				bot_movement_input = Vector2(bot1_pos.x-position.x, bot1_pos.y-position.y)
+			else:
+				bot_movement_input = Vector2(0,0)
+			if distance_to_bot1 < 70:
+				bot_attack_or_guard_input = 1
+			elif distance_to_bot1 < 100:
+				bot_attack_or_guard_input = -1
+			else:
+				bot_attack_or_guard_input = 0
+
 ################ STATE FUNCTIONS ################
 func _idle_state(delta) -> void:
 	var input = bot_movement_input
@@ -99,7 +158,8 @@ func _attack_state(delta) -> void:
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
 		if attacked_body is House:
-			attacked_body.queue_free()
+			if team != attacked_body.team:
+				attacked_body.queue_free()
 		else:
 			if not attacked_body.guard_ongoing:
 				attacked_body.hp -= 50
