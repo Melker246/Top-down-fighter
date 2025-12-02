@@ -1,7 +1,7 @@
 [gd_scene load_steps=15 format=3 uid="uid://f4g4x50pgnai"]
 
 [ext_resource type="Script" uid="uid://b47sypxdiya16" path="res://Scripts/round_interference.gd" id="1_ob8ux"]
-[ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://canterbury/Canterbury.ttf" id="2_ob8ux"]
+[ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://Assets/canterbury/Canterbury.ttf" id="2_ob8ux"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ob8ux"]
 bg_color = Color(1, 0.54902, 0.54902, 1)

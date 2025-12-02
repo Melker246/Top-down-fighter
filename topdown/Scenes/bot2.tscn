@@ -1,11 +1,11 @@
 [gd_scene load_steps=16 format=3 uid="uid://oarxe8h60u2s"]
 
 [ext_resource type="Script" uid="uid://bodwmd2yrwlq8" path="res://Scripts/bot_2.gd" id="1_qrtg3"]
-[ext_resource type="Texture2D" uid="uid://dd80f48vhtcxy" path="res://Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Idle.png" id="2_qrtg3"]
-[ext_resource type="Texture2D" uid="uid://b7rkpwxfefu50" path="res://Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack1.png" id="3_yw3ji"]
-[ext_resource type="Texture2D" uid="uid://d24wvbc4s8xum" path="res://Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack2.png" id="4_7abys"]
-[ext_resource type="Texture2D" uid="uid://dppa6il7hj8b7" path="res://Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Guard.png" id="5_avpgl"]
-[ext_resource type="Texture2D" uid="uid://dmh3yu44hs8ot" path="res://Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Run.png" id="6_ecr5w"]
+[ext_resource type="Texture2D" uid="uid://dd80f48vhtcxy" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Idle.png" id="2_qrtg3"]
+[ext_resource type="Texture2D" uid="uid://b7rkpwxfefu50" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack1.png" id="3_yw3ji"]
+[ext_resource type="Texture2D" uid="uid://d24wvbc4s8xum" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack2.png" id="4_7abys"]
+[ext_resource type="Texture2D" uid="uid://dppa6il7hj8b7" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Guard.png" id="5_avpgl"]
+[ext_resource type="Texture2D" uid="uid://dmh3yu44hs8ot" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Run.png" id="6_ecr5w"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
 radius = 15.0
@@ -117,6 +117,30 @@ tracks/2/keys = {
 "update": 1,
 "values": [ExtResource("3_yw3ji"), ExtResource("4_7abys")]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_8sl0u"]
 resource_name = "death"
@@ -210,6 +234,30 @@ tracks/2/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="Animation" id="Animation_cvnsp"]
 resource_name = "idle"
@@ -249,6 +297,30 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("2_qrtg3")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_vgqql"]
@@ -291,6 +363,30 @@ tracks/2/keys = {
 "update": 1,
 "values": [ExtResource("6_ecr5w")]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Sprite2D:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("Sprite2D:skew")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vgqql"]
 _data = {
@@ -303,7 +399,8 @@ _data = {
 }
 
 [node name="bot2" type="CharacterBody2D"]
-collision_layer = 8
+z_index = 2
+collision_layer = 16
 collision_mask = 15
 script = ExtResource("1_qrtg3")
 
@@ -319,7 +416,7 @@ shape = SubResource("CapsuleShape2D_cvnsp")
 [node name="AttackArea" type="Area2D" parent="."]
 position = Vector2(29, -32)
 collision_layer = 0
-collision_mask = 54
+collision_mask = 46
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
 position = Vector2(-10, 6)

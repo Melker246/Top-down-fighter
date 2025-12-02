@@ -1,8 +1,8 @@
 [gd_scene load_steps=12 format=4 uid="uid://gg2uucnv2wb6"]
 
 [ext_resource type="Script" uid="uid://2hbcokm3gxq2" path="res://Scripts/level.gd" id="1_0f350"]
-[ext_resource type="Texture2D" uid="uid://brjeyqfxwikr4" path="res://Tiny Swords (Free Pack)/Terrain/Tilemap_color1.png" id="1_k5f4k"]
-[ext_resource type="Texture2D" uid="uid://cf4beiomvwl1g" path="res://Tiny Swords (Free Pack)/Terrain/Water Background color.png" id="1_tumq0"]
+[ext_resource type="Texture2D" uid="uid://brjeyqfxwikr4" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tilemap_color1.png" id="1_k5f4k"]
+[ext_resource type="Texture2D" uid="uid://cf4beiomvwl1g" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Water Background color.png" id="1_tumq0"]
 [ext_resource type="PackedScene" uid="uid://b4yirs1771rh6" path="res://Scenes/player.tscn" id="3_6phgx"]
 [ext_resource type="PackedScene" uid="uid://d2sdn3sk8q46s" path="res://Scenes/player2.tscn" id="4_81xng"]
 [ext_resource type="PackedScene" uid="uid://cive6cpqmht6o" path="res://Scenes/house.tscn" id="4_754fn"]
@@ -247,7 +247,7 @@ position = Vector2(742, 793)
 position = Vector2(1500, 793)
 
 [node name="RedHouse" parent="." instance=ExtResource("4_754fn")]
-position = Vector2(1380, 101)
+position = Vector2(1325, 160)
 
 [node name="BlackHouse" parent="." instance=ExtResource("4_754fn")]
 position = Vector2(678, 166)
@@ -262,7 +262,7 @@ position = Vector2(1500, 793)
 position = Vector2(678, 166)
 
 [node name="bot2" parent="." instance=ExtResource("7_8c0lf")]
-position = Vector2(1381, 101)
+position = Vector2(1325, 160)
 
 [node name="Round_interference" parent="." instance=ExtResource("9_bvt00")]
 visible = false

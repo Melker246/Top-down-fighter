@@ -14,8 +14,11 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var attack_area: Area2D = $AttackArea
 
 var hp = 100
+var damage = 50
+var speed = 1
 var team = 2
 
+var dead = false
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
 var body_inside_attack = false
@@ -32,17 +35,18 @@ func _ready() -> void:
 
 ################# STATE MACHINE #################
 func _physics_process(delta: float) -> void:
-	match state:
-		IDLE:
-			_idle_state(delta)
-		RUN:
-			_run_state(delta)
-		ATTACK:
-			_attack_state(delta)
-		GUARD:
-			_guard_state(delta)
-		DEAD:
-			_dead_state(delta)
+	if not dead:
+		match state:
+			IDLE:
+				_idle_state(delta)
+			RUN:
+				_run_state(delta)
+			ATTACK:
+				_attack_state(delta)
+			GUARD:
+				_guard_state(delta)
+			DEAD:
+				_dead_state(delta)
 
 ################ HELP FUNCTIONS
 func _movement(delta, input, speedkoefficent) -> void:
@@ -70,7 +74,7 @@ func _idle_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input, 1)
+	_movement(delta, input, speed)
 	if _hp_control():
 		enter_dead_state()
 	if velocity != Vector2(0, 0):
@@ -84,11 +88,11 @@ func _run_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input, 1)
+	_movement(delta, input, speed)
 	if _hp_control():
 		enter_dead_state()
 	if velocity == Vector2(0, 0):
-		_enter_idle_state()
+		enter_idle_state()
 	if Input.is_action_just_pressed("attack2"):
 		_enter_attack_state()
 	if Input.is_action_just_pressed("guard2"):
@@ -98,20 +102,20 @@ func _attack_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF)
+	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF*speed)
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
-		if attacked_body is House:
+		if attacked_body is House or attacked_body is Tower:
 			if team != attacked_body.team:
-				attacked_body.queue_free()
+				attacked_body.destroy()
 		else:
 			if not attacked_body.guard_ongoing:
-				attacked_body.hp -= 50
+				attacked_body.hp -= damage
 	if _hp_control():
 		enter_dead_state()
 	if not attack_ongoing:
 		if velocity == Vector2(0,0):
-			_enter_idle_state()
+			enter_idle_state()
 		else:
 			_enter_run_state()
 	if Input.is_action_just_pressed("guard2"):
@@ -122,12 +126,12 @@ func _guard_state(delta) -> void:
 	var input = Vector2(0, 0)
 	input.y = Input.get_axis("up2", "down2")
 	input.x = Input.get_axis("left2", "right2")
-	_movement(delta, input, GUARD_MOVEMENT_DEBUFF)
+	_movement(delta, input, GUARD_MOVEMENT_DEBUFF*speed)
 	if _hp_control():
 		enter_dead_state()
 	if not guard_ongoing:
 		if velocity == Vector2(0,0):
-			_enter_idle_state()
+			enter_idle_state()
 		else:
 			_enter_run_state()
 
@@ -136,7 +140,7 @@ func _dead_state(delta) -> void:
 
 
 ################ ENTER STATE FUNCTIONS ###############
-func _enter_idle_state() -> void:
+func enter_idle_state() -> void:
 	state = IDLE
 	anim.play("idle")
 
@@ -161,7 +165,9 @@ func enter_dead_state() -> void:
 	anim.play("death")
 	await anim.animation_finished
 	emit_signal("player2_dead")
-	queue_free()
+	global_position = Vector2(-1000,-2000)
+	velocity = Vector2(0,0)
+	dead = true
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
