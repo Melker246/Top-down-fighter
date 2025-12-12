@@ -16,6 +16,10 @@ var blue_tower = null
 var yellow_tower = null
 var black_tower = null
 var red_tower = null
+var blue_arrow = null
+var yellow_arrow = null
+var black_arrow = null
+var red_arrow = null
 
 var dead_players = 0
 var player_chosing_upgrades = 0
@@ -82,7 +86,22 @@ func _physics_process(delta: float) -> void:
 		bot2.bot1_pos = bot1.position
 	else:
 		bot2.bot1_pos = null
-
+	
+	if blue_tower is StaticBody2D:
+		if blue_tower.can_shoot:
+			blue_tower.shoot_players(player2,bot1,bot2)
+	
+	if yellow_tower is StaticBody2D:
+		if yellow_tower.can_shoot:
+			yellow_tower.shoot_players(player1,bot1,bot2)
+	
+	if black_tower is StaticBody2D:
+		if black_tower.can_shoot:
+			black_tower.shoot_players(player2,player1,bot2)
+	
+	if red_tower is StaticBody2D:
+		if red_tower.can_shoot:
+			red_tower.shoot_players(player2,bot1,player1)
 
 func _round_over():
 	round_interference.show()

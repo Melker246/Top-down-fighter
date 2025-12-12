@@ -249,3 +249,12 @@ shape = SubResource("RectangleShape2D_01au3")
 libraries = {
 &"": SubResource("AnimationLibrary_8ario")
 }
+
+[node name="ShootTimer" type="Timer" parent="."]
+wait_time = 2.0
+one_shot = true
+
+[node name="ShootAnimationOffset" type="Timer" parent="."]
+wait_time = 0.4
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
