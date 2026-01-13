@@ -9,6 +9,8 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 
 @onready var attack_timer: Timer = $AttackTimer
 @onready var guard_timer: Timer = $GuardTimer
+@onready var dash_timer: Timer = $DashTimer
+@onready var dash_cooldown: Timer = $DashCooldown
 @onready var anim: AnimationPlayer = $AnimationPlayer
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
@@ -32,11 +34,14 @@ var dead = false
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
 var body_inside_attack = false
-var attacked_body = 0
+var attacked_body = []
 var can_attack = true
 var guard_ongoing = false
+var dash = false
+var dash_ongoing = false
+var can_dash = true
 
-enum {IDLE, RUN, ATTACK, GUARD, DEAD}
+enum {IDLE, RUN, ATTACK, GUARD, DASH, DEAD}
 var state = IDLE
 
 func _ready() -> void:
@@ -56,6 +61,8 @@ func _physics_process(delta: float) -> void:
 				_attack_state(delta)
 			GUARD:
 				_guard_state(delta)
+			DASH:
+				_dash_state(delta)
 			DEAD:
 				_dead_state(delta)
 
@@ -76,30 +83,31 @@ func _movement(delta, input, speedkoefficent) -> void:
 
 func _hp_control() -> bool: #Dead = true, alive = false
 	if hp <= 0:
+		dead = true
 		return true
 	else:
 		return false
 
 func get_input():
-	if player1_pos == null and player2_pos == null and bot2_pos == null:
+	if player1_pos == Vector2(-1000,-1000) and player2_pos == Vector2(-1000,-2000) and bot2_pos == Vector2(-2000,-1000):
 		bot_movement_input = Vector2(0,0)
 		bot_attack_or_guard_input = 0
 	else:
-		if player1_pos != null:
+		if player1_pos is Vector2:
 			distance_to_player1 = sqrt((player1_pos.x-position.x)**2+(player1_pos.y-position.y)**2)
 		else:
 			distance_to_player1 = 4095
-		if player2_pos != null:
+		if player2_pos is Vector2:
 			distance_to_player2 = sqrt((player2_pos.x-position.x)**2+(player2_pos.y-position.y)**2)
 		else:
 			distance_to_player2 = 4095
-		if bot2_pos != null:
+		if bot2_pos is Vector2:
 			distance_to_bot2 = sqrt((bot2_pos.x-position.x)**2+(bot2_pos.y-position.y)**2)
 		else:
 			distance_to_bot2 = 4095
 		if distance_to_player1 < distance_to_player2 and distance_to_player1 < distance_to_bot2:
 			if distance_to_player1 > 30:
-				bot_movement_input = Vector2(player1_pos.x-position.x, player1_pos.y-position.y)
+				bot_movement_input = player1_pos -position
 			else:
 				bot_movement_input = Vector2(0,0)
 			if distance_to_player1 < 70:
@@ -110,7 +118,7 @@ func get_input():
 				bot_attack_or_guard_input = 0
 		elif distance_to_player2 < distance_to_bot2:
 			if distance_to_player2 > 30:
-				bot_movement_input = Vector2(player2_pos.x-position.x, player2_pos.y-position.y)
+				bot_movement_input = player2_pos - position
 			else:
 				bot_movement_input = Vector2(0,0)
 			if distance_to_player2 < 70:
@@ -121,7 +129,7 @@ func get_input():
 				bot_attack_or_guard_input = 0
 		else:
 			if distance_to_bot2 > 30:
-				bot_movement_input = Vector2(bot2_pos.x-position.x, bot2_pos.y-position.y)
+				bot_movement_input = bot2_pos - position
 			else:
 				bot_movement_input = Vector2(0,0)
 			if distance_to_bot2 < 70:
@@ -141,8 +149,10 @@ func _idle_state(delta) -> void:
 		_enter_run_state()
 	if bot_attack_or_guard_input == 1:
 		_enter_attack_state()
-	if bot_attack_or_guard_input == -1:
+	elif bot_attack_or_guard_input == -1:
 		_enter_guard_state()
+	elif bot_attack_or_guard_input == 0 and dash and can_dash:
+		_enter_dash_state()
 
 func _run_state(delta) -> void:
 	var input = bot_movement_input
@@ -153,20 +163,23 @@ func _run_state(delta) -> void:
 		enter_idle_state()
 	if bot_attack_or_guard_input == 1:
 		_enter_attack_state()
-	if bot_attack_or_guard_input == -1:
+	elif bot_attack_or_guard_input == -1:
 		_enter_guard_state()
+	elif bot_attack_or_guard_input == 0 and dash and can_dash:
+		_enter_dash_state()
 
 func _attack_state(delta) -> void:
 	var input = bot_movement_input
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF*speed)
 	if body_inside_attack and can_attack and attack_ongoing:
 		can_attack = false
-		if attacked_body is House or attacked_body is Tower:
-			if team != attacked_body.team:
-				attacked_body.destroy()
-		else:
-			if not attacked_body.guard_ongoing:
-				attacked_body.hp -= damage
+		for body in attacked_body:
+			if body is House or body is Tower:
+				if team != body.team:
+					body.destroy()
+			else:
+				if not body.guard_ongoing:
+					body.hp -= damage
 	if _hp_control():
 		enter_dead_state()
 	if not attack_ongoing:
@@ -176,6 +189,8 @@ func _attack_state(delta) -> void:
 			_enter_run_state()
 	if bot_attack_or_guard_input == -1:
 		_enter_guard_state()
+	elif bot_attack_or_guard_input == 0 and dash and can_dash:
+		_enter_dash_state()
 
 
 func _guard_state(delta) -> void:
@@ -184,6 +199,17 @@ func _guard_state(delta) -> void:
 	if _hp_control():
 		enter_dead_state()
 	if not guard_ongoing:
+		if velocity == Vector2(0,0):
+			enter_idle_state()
+		else:
+			_enter_run_state()
+
+func _dash_state(delta) -> void:
+	move_and_slide()
+	if _hp_control():
+		enter_dead_state()
+	if not dash_ongoing:
+		velocity /= 4
 		if velocity == Vector2(0,0):
 			enter_idle_state()
 		else:
@@ -214,6 +240,18 @@ func _enter_guard_state() -> void:
 	guard_timer.start()
 	anim.play("guard")
 
+func _enter_dash_state() -> void:
+	state = DASH
+	velocity *= 4
+	if velocity.x > 0:
+		sprite.rotation = PI/9
+	elif velocity.x < 0:
+		sprite.rotation = -PI/9
+	dash_ongoing = true
+	can_dash = false
+	dash_cooldown.start()
+	dash_timer.start()
+
 func enter_dead_state() -> void:
 	state = DEAD
 	anim.play("death")
@@ -221,17 +259,16 @@ func enter_dead_state() -> void:
 	emit_signal("bot1_dead")
 	global_position = Vector2(-2000,-2000)
 	velocity = Vector2(0,0)
-	dead = true
 
 
 ############# Other shit ###########
 func _on_attack_area_body_entered(body: Node2D) -> void:
 	body_inside_attack = true
-	attacked_body = body
+	attacked_body.append(body)
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
 	body_inside_attack = false
-	attacked_body = 0
+	attacked_body.erase(body)
 
 func _on_attack_timer_timeout() -> void:
 	attack_ongoing = false
@@ -239,3 +276,10 @@ func _on_attack_timer_timeout() -> void:
 
 func _on_guard_timer_timeout() -> void:
 	guard_ongoing = false
+
+func _on_dash_timer_timeout() -> void:
+	sprite.rotation = 0
+	dash_ongoing = false
+
+func _on_dash_cooldown_timeout() -> void:
+	can_dash = true

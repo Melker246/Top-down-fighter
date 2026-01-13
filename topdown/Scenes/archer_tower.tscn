@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bkqokgwrsb7r5"]
+[gd_scene load_steps=25 format=3 uid="uid://bkqokgwrsb7r5"]
 
 [ext_resource type="Texture2D" uid="uid://cur0dnqpru453" path="res://Assets/Tiny Swords (Free Pack)/Buildings/Blue Buildings/Tower.png" id="1_0t6pf"]
 [ext_resource type="Script" uid="uid://ct6dwmkabpgv4" path="res://Scripts/archer_tower.gd" id="1_s4dcu"]
@@ -7,6 +7,12 @@
 [ext_resource type="Texture2D" uid="uid://dfe8g7bjpxlis" path="res://Assets/Tiny Swords (Free Pack)/Buildings/Red Buildings/Tower.png" id="5_gbeua"]
 [ext_resource type="Texture2D" uid="uid://sp5e65p171rb" path="res://Assets/Tiny Swords (Free Pack)/Buildings/Black Buildings/Tower.png" id="6_8ario"]
 [ext_resource type="Texture2D" uid="uid://c8dtbb73hht74" path="res://Assets/Tiny Swords (Free Pack)/Buildings/Yellow Buildings/Tower.png" id="7_gbeua"]
+[ext_resource type="Texture2D" uid="uid://crjfuekg7gh24" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Archer/Archer_Shoot.png" id="8_q8hc6"]
+[ext_resource type="Texture2D" uid="uid://dwwlaq8wojikw" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Archer/Archer_Shoot.png" id="9_jx3y5"]
+[ext_resource type="Texture2D" uid="uid://cs303ddh6hnr3" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Archer/Archer_Shoot.png" id="10_mkcju"]
+[ext_resource type="Texture2D" uid="uid://d2mqrvxyhjo04" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Archer/Archer_Idle.png" id="11_mkcju"]
+[ext_resource type="Texture2D" uid="uid://di2up4lwl5wqf" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Archer/Archer_Idle.png" id="11_uful2"]
+[ext_resource type="Texture2D" uid="uid://bnlwja7f5yi4n" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Archer/Archer_Idle.png" id="13_uful2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_01au3"]
 size = Vector2(50, 60)
@@ -62,38 +68,111 @@ tracks/3/keys = {
 "values": [ExtResource("1_0t6pf")]
 }
 
-[sub_resource type="Animation" id="Animation_jx3y5"]
-resource_name = "black"
-length = 0.001
+[sub_resource type="Animation" id="Animation_eyq5t"]
+resource_name = "black_idle"
+length = 0.5
+loop_mode = 1
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Tower:texture")
+tracks/0/path = NodePath("Archer:hframes")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Archer:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Archer:texture")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("11_mkcju")]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [ExtResource("6_8ario")]
 }
 
-[sub_resource type="Animation" id="Animation_bxvid"]
-resource_name = "blue"
-length = 0.001
+[sub_resource type="Animation" id="Animation_ewhm1"]
+resource_name = "black_shoot"
+length = 0.7
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Tower:texture")
+tracks/0/path = NodePath("Archer:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ExtResource("1_0t6pf")]
+"values": [ExtResource("8_q8hc6")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Archer:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Archer:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("6_8ario")]
 }
 
 [sub_resource type="Animation" id="Animation_13lyk"]
@@ -137,6 +216,18 @@ tracks/2/keys = {
 "update": 1,
 "values": [6]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_0t6pf")]
+}
 
 [sub_resource type="Animation" id="Animation_gbeua"]
 resource_name = "blue_shoot"
@@ -178,35 +269,225 @@ tracks/2/keys = {
 "update": 1,
 "values": [0, 1, 2, 3, 4, 5, 6, 7]
 }
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("1_0t6pf")]
+}
 
-[sub_resource type="Animation" id="Animation_q8hc6"]
-resource_name = "red"
-length = 0.001
+[sub_resource type="Animation" id="Animation_akq4q"]
+resource_name = "red_idle"
+length = 0.5
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Tower:texture")
+tracks/0/path = NodePath("Archer:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
+"values": [ExtResource("11_uful2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Archer:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Archer:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
 "values": [ExtResource("5_gbeua")]
 }
 
-[sub_resource type="Animation" id="Animation_ip72c"]
-resource_name = "yellow"
-length = 0.001
+[sub_resource type="Animation" id="Animation_040iw"]
+resource_name = "red_shoot"
+length = 0.7
 step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Tower:texture")
+tracks/0/path = NodePath("Archer:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("9_jx3y5")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Archer:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Archer:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("5_gbeua")]
+}
+
+[sub_resource type="Animation" id="Animation_qcstj"]
+resource_name = "yellow_idle"
+length = 0.5
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Archer:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("13_uful2")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Archer:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [6]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Archer:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("7_gbeua")]
+}
+
+[sub_resource type="Animation" id="Animation_dmx3h"]
+resource_name = "yellow_shoot"
+length = 0.7
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Archer:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("10_mkcju")]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Archer:hframes")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [8]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Archer:frame")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Tower:texture")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
@@ -216,12 +497,14 @@ tracks/0/keys = {
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_8ario"]
 _data = {
 &"RESET": SubResource("Animation_s4dcu"),
-&"black": SubResource("Animation_jx3y5"),
-&"blue": SubResource("Animation_bxvid"),
+&"black_idle": SubResource("Animation_eyq5t"),
+&"black_shoot": SubResource("Animation_ewhm1"),
 &"blue_idle": SubResource("Animation_13lyk"),
 &"blue_shoot": SubResource("Animation_gbeua"),
-&"red": SubResource("Animation_q8hc6"),
-&"yellow": SubResource("Animation_ip72c")
+&"red_idle": SubResource("Animation_akq4q"),
+&"red_shoot": SubResource("Animation_040iw"),
+&"yellow_idle": SubResource("Animation_qcstj"),
+&"yellow_shoot": SubResource("Animation_dmx3h")
 }
 
 [node name="ArcherTower" type="StaticBody2D"]

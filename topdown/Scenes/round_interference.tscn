@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://f4g4x50pgnai"]
+[gd_scene load_steps=16 format=3 uid="uid://f4g4x50pgnai"]
 
 [ext_resource type="Script" uid="uid://b47sypxdiya16" path="res://Scripts/round_interference.gd" id="1_ob8ux"]
 [ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://Assets/canterbury/Canterbury.ttf" id="2_ob8ux"]
@@ -147,7 +147,24 @@ corner_radius_top_right = 60
 corner_radius_bottom_right = 60
 corner_radius_bottom_left = 60
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m5pm6"]
+bg_color = Color(0.117647, 0.117647, 0.117647, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0, 0, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+expand_margin_left = 15.0
+expand_margin_top = 15.0
+expand_margin_right = 15.0
+expand_margin_bottom = 15.0
+
 [node name="Round_interference" type="CanvasLayer"]
+layer = 8
 script = ExtResource("1_ob8ux")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -174,7 +191,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_1ert4")
 theme_override_styles/normal = SubResource("StyleBoxFlat_5w53i")
 text = "Health
 +50% hp
-"
+next 
+monk"
 
 [node name="AttackButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -185,8 +203,9 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_j1ffe")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_1plnc")
 theme_override_styles/normal = SubResource("StyleBoxFlat_qhjqc")
 text = "Attack
-+50% damage
-"
++50% dmg
+next 
+deflect"
 
 [node name="SpeedButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -198,7 +217,8 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_m3vqo")
 theme_override_styles/normal = SubResource("StyleBoxFlat_f7d76")
 text = "Speed
 +20% speed
-"
+next
+dash"
 
 [node name="TeamButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -210,10 +230,26 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_a7nd1")
 theme_override_styles/normal = SubResource("StyleBoxFlat_ou1bc")
 text = "Team
 +archer tower
+next 
+lancer
 "
 icon_alignment = 1
 vertical_icon_alignment = 2
 expand_icon = true
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -272.5
+offset_top = 150.0
+offset_right = 272.5
+offset_bottom = 255.0
+grow_horizontal = 2
+theme_override_fonts/font = ExtResource("2_ob8ux")
+theme_override_font_sizes/font_size = 100
+theme_override_styles/normal = SubResource("StyleBoxFlat_m5pm6")
+text = " Blue Player"
 
 [connection signal="pressed" from="HBoxContainer/HealthButton" to="." method="_on_health_button_pressed"]
 [connection signal="pressed" from="HBoxContainer/AttackButton" to="." method="_on_attack_button_pressed"]

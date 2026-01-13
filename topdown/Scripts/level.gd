@@ -66,26 +66,12 @@ func _ready() -> void:
 
 
 func _physics_process(delta: float) -> void:
-	if player1.global_position != Vector2(-1000,-1000):
-		bot1.player1_pos = player1.position
-		bot2.player1_pos = player1.position
-	else:
-		bot1.player1_pos = null
-		bot2.player1_pos = null
-	if player2.global_position != Vector2(-1000,-2000):
-		bot1.player2_pos = player2.position
-		bot2.player2_pos = player2.position
-	else:
-		bot1.player2_pos = null
-		bot2.player2_pos = null
-	if bot2.global_position != Vector2(-2000,-1000):
-		bot1.bot2_pos = bot2.position
-	else:
-		bot1.bot2_pos = null
-	if bot1.global_position != Vector2(-2000,-2000):
-		bot2.bot1_pos = bot1.position
-	else:
-		bot2.bot1_pos = null
+	bot1.player1_pos = player1.position
+	bot2.player1_pos = player1.position
+	bot1.player2_pos = player2.position
+	bot2.player2_pos = player2.position
+	bot1.bot2_pos = bot2.position
+	bot2.bot1_pos = bot1.position
 	
 	if blue_tower is StaticBody2D:
 		if blue_tower.can_shoot:
@@ -158,15 +144,18 @@ func _add_uppgrades():
 	if player1_health_upgrades >= 1:
 		player1.hp *= 1.5
 		if player1_health_upgrades >= 2:
-			player1.hp *= 1.5 ** (player1_health_upgrades - 1)
+			#monk
+			player1.hp *= 1.4 ** (player1_health_upgrades - 2)
 	if player1_attack_upgrades >= 1:
 		player1.damage *= 1.5
 		if player1_attack_upgrades >= 2:
-			player1.damage *= 1.5 ** (player1_attack_upgrades - 1)
+			#deflect
+			player1.damage *= 1.3 ** (player1_attack_upgrades - 2)
 	if player1_speed_upgrades >= 1:
 		player1.speed *= 1.2
 		if player1_speed_upgrades >= 2:
-			player1.speed *= 1.2 ** (player1_speed_upgrades - 1)
+			player1.dash = true
+			player1.speed *= 1.1 ** (player1_speed_upgrades - 2)
 	if player1_team_upgrades >= 1:
 		blue_tower = ARCHER_TOWER_SCENE.instantiate()
 		add_child(blue_tower)
@@ -174,19 +163,25 @@ func _add_uppgrades():
 		blue_tower.blue()
 		blue_house.hide()
 		blue_tower.position = blue_house.global_position
+		if player1_team_upgrades % 2 == 0:
+			#lancer
+			pass
 	
 	if player2_health_upgrades >= 1:
 		player2.hp *= 1.5
 		if player2_health_upgrades >= 2:
-			player2.hp *= 1.5 ** (player2_health_upgrades - 1)
+			#monk
+			player2.hp *= 1.4 ** (player2_health_upgrades - 2)
 	if player2_attack_upgrades >= 1:
 		player2.damage *= 1.5
 		if player2_attack_upgrades >= 2:
-			player2.damage *= 1.5 ** (player2_attack_upgrades - 1)
+			#deflect
+			player2.damage *= 1.3 ** (player2_attack_upgrades - 2)
 	if player2_speed_upgrades >= 1:
 		player2.speed *= 1.2
 		if player2_speed_upgrades >= 2:
-			player2.speed *= 1.2 ** (player2_speed_upgrades - 1)
+			player2.dash = true
+			player2.speed *= 1.1 ** (player2_speed_upgrades - 2)
 	if player2_team_upgrades >= 1:
 		yellow_tower = ARCHER_TOWER_SCENE.instantiate()
 		add_child(yellow_tower)
@@ -194,19 +189,25 @@ func _add_uppgrades():
 		yellow_tower.yellow()
 		yellow_house.hide()
 		yellow_tower.position = yellow_house.global_position
+		if player2_team_upgrades % 2 == 0:
+			#lancer
+			pass
 	
 	if bot1_health_upgrades >= 1:
 		bot1.hp *= 1.5
 		if bot1_health_upgrades >= 2:
-			bot1.hp *= 1.5 ** (bot1_health_upgrades - 1)
+			#monk
+			bot1.hp *= 1.4 ** (bot1_health_upgrades - 2)
 	if bot1_attack_upgrades >= 1:
 		bot1.damage *= 1.5
 		if bot1_attack_upgrades >= 2:
-			bot1.damage *= 1.5 ** (bot1_attack_upgrades - 1)
+			#deflect
+			bot1.damage *= 1.3 ** (bot1_attack_upgrades - 2)
 	if bot1_speed_upgrades >= 1:
 		bot1.speed *= 1.2
 		if bot1_speed_upgrades >= 2:
-			bot1.speed *= 1.2 ** (bot1_speed_upgrades - 1)
+			bot1.dash = true
+			bot1.speed *= 1.1 ** (bot1_speed_upgrades - 2)
 	if bot1_team_upgrades >= 1:
 		black_tower = ARCHER_TOWER_SCENE.instantiate()
 		add_child(black_tower)
@@ -214,19 +215,25 @@ func _add_uppgrades():
 		black_tower.black()
 		black_house.hide()
 		black_tower.position = black_house.global_position
+		if bot1_team_upgrades % 2 == 0:
+			#lancer
+			pass
 	
 	if bot2_health_upgrades >= 1:
 		bot2.hp *= 1.5
 		if bot2_health_upgrades >= 2:
-			bot2.hp *= 1.5 ** (bot2_health_upgrades - 1)
+			#monk
+			bot2.hp *= 1.4 ** (bot2_health_upgrades - 2)
 	if bot2_attack_upgrades >= 1:
 		bot2.damage *= 1.5
 		if bot2_attack_upgrades >= 2:
-			bot2.damage *= 1.5 ** (bot2_attack_upgrades - 1)
+			#deflect
+			bot2.damage *= 1.3 ** (bot2_attack_upgrades - 2)
 	if bot2_speed_upgrades >= 1:
 		bot2.speed *= 1.2
 		if bot2_speed_upgrades >= 2:
-			bot2.speed *= 1.2 ** (bot2_speed_upgrades - 1)
+			bot2.dash = true
+			bot2.speed *= 1.1 ** (bot2_speed_upgrades - 2)
 	if bot2_team_upgrades >= 1:
 		red_tower = ARCHER_TOWER_SCENE.instantiate()
 		add_child(red_tower)
@@ -234,16 +241,23 @@ func _add_uppgrades():
 		red_tower.red()
 		red_house.hide()
 		red_tower.position = red_house.global_position
+		if bot2_team_upgrades % 2 == 0:
+			#lancer
+			pass
 
 func _on_house_dead(team):
 	if team == 1:
-		player1.enter_dead_state()
+		if not player1.dead:
+			player1.enter_dead_state()
 	elif team == 2:
-		player2.enter_dead_state()
+		if not player2.dead:
+			player2.enter_dead_state()
 	elif team == 3:
-		bot1.enter_dead_state()
+		if not bot1.dead:
+			bot1.enter_dead_state()
 	else:
-		bot2.enter_dead_state()
+		if not bot2.dead:
+			bot2.enter_dead_state()
 
 func _on_bot1_dead():
 	dead_players += 1
@@ -269,34 +283,42 @@ func _health_button_pressed():
 	if player_chosing_upgrades == 1:
 		player1_health_upgrades += 1
 		player_chosing_upgrades += 1
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 	elif player_chosing_upgrades == 2:
 		player2_health_upgrades += 1
 		round_interference.hide()
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 		_start_new_round()
 
 func _attack_button_pressed():
 	if player_chosing_upgrades == 1:
 		player1_attack_upgrades += 1
 		player_chosing_upgrades += 1
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 	elif player_chosing_upgrades == 2:
 		player2_attack_upgrades += 1
 		round_interference.hide()
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 		_start_new_round()
 
 func _speed_button_pressed():
 	if player_chosing_upgrades == 1:
 		player1_speed_upgrades += 1
 		player_chosing_upgrades += 1
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 	elif player_chosing_upgrades == 2:
 		player2_speed_upgrades += 1
 		round_interference.hide()
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 		_start_new_round()
 
 func _team_button_pressed():
 	if player_chosing_upgrades == 1:
 		player1_team_upgrades += 1
 		player_chosing_upgrades += 1
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 	elif player_chosing_upgrades == 2:
 		player2_team_upgrades += 1
 		round_interference.hide()
+		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 		_start_new_round()

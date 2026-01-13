@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://oarxe8h60u2s"]
 
-[ext_resource type="Script" uid="uid://bodwmd2yrwlq8" path="res://Scripts/bot_2.gd" id="1_qrtg3"]
+[ext_resource type="Script" uid="uid://d2cofyoxeqprt" path="res://Scripts/bot_2.gd" id="1_qrtg3"]
 [ext_resource type="Texture2D" uid="uid://dd80f48vhtcxy" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Idle.png" id="2_qrtg3"]
 [ext_resource type="Texture2D" uid="uid://b7rkpwxfefu50" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack1.png" id="3_yw3ji"]
 [ext_resource type="Texture2D" uid="uid://d24wvbc4s8xum" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Warrior/Warrior_Attack2.png" id="4_7abys"]
@@ -435,7 +435,17 @@ one_shot = true
 wait_time = 1.8
 one_shot = true
 
+[node name="DashTimer" type="Timer" parent="."]
+wait_time = 0.15
+one_shot = true
+
+[node name="DashCooldown" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
 [connection signal="timeout" from="GuardTimer" to="." method="_on_guard_timer_timeout"]
+[connection signal="timeout" from="DashTimer" to="." method="_on_dash_timer_timeout"]
+[connection signal="timeout" from="DashCooldown" to="." method="_on_dash_cooldown_timeout"]
