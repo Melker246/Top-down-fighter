@@ -21,7 +21,6 @@ var yellow_arrow = null
 var black_arrow = null
 var red_arrow = null
 
-var dead_players = 0
 var player_chosing_upgrades = 0
 
 var player1_health_upgrades = 0
@@ -44,9 +43,11 @@ var bot2_attack_upgrades = 0
 var bot2_speed_upgrades = 0
 var bot2_team_upgrades = 0
 
+var players = []
 
 
 func _ready() -> void:
+	players = [player1,player2,bot1,bot2]
 	blue_house.blue()
 	yellow_house.yellow()
 	red_house.red()
@@ -132,7 +133,6 @@ func _start_new_round():
 	player2.enter_idle_state()
 	bot1.enter_idle_state()
 	bot2.enter_idle_state()
-	dead_players = 0
 	_add_uppgrades()
 
 func _reset_upgrades(player):
@@ -149,7 +149,7 @@ func _add_uppgrades():
 	if player1_attack_upgrades >= 1:
 		player1.damage *= 1.5
 		if player1_attack_upgrades >= 2:
-			#deflect
+			player1.deflect = true
 			player1.damage *= 1.3 ** (player1_attack_upgrades - 2)
 	if player1_speed_upgrades >= 1:
 		player1.speed *= 1.2
@@ -175,7 +175,7 @@ func _add_uppgrades():
 	if player2_attack_upgrades >= 1:
 		player2.damage *= 1.5
 		if player2_attack_upgrades >= 2:
-			#deflect
+			player2.deflect = true
 			player2.damage *= 1.3 ** (player2_attack_upgrades - 2)
 	if player2_speed_upgrades >= 1:
 		player2.speed *= 1.2
@@ -201,7 +201,7 @@ func _add_uppgrades():
 	if bot1_attack_upgrades >= 1:
 		bot1.damage *= 1.5
 		if bot1_attack_upgrades >= 2:
-			#deflect
+			bot1.deflect
 			bot1.damage *= 1.3 ** (bot1_attack_upgrades - 2)
 	if bot1_speed_upgrades >= 1:
 		bot1.speed *= 1.2
@@ -227,7 +227,7 @@ func _add_uppgrades():
 	if bot2_attack_upgrades >= 1:
 		bot2.damage *= 1.5
 		if bot2_attack_upgrades >= 2:
-			#deflect
+			bot2.deflect = true
 			bot2.damage *= 1.3 ** (bot2_attack_upgrades - 2)
 	if bot2_speed_upgrades >= 1:
 		bot2.speed *= 1.2
@@ -260,22 +260,34 @@ func _on_house_dead(team):
 			bot2.enter_dead_state()
 
 func _on_bot1_dead():
-	dead_players += 1
+	var dead_players = 0
+	for player in players:
+		if player.dead:
+			dead_players += 1
 	if dead_players >= 3:
 		_round_over()
 
 func _on_bot2_dead():
-	dead_players += 1
+	var dead_players = 0
+	for player in players:
+		if player.dead:
+			dead_players += 1
 	if dead_players >= 3:
 		_round_over()
 
 func _on_player1_dead():
-	dead_players += 1
+	var dead_players = 0
+	for player in players:
+		if player.dead:
+			dead_players += 1
 	if dead_players >= 3:
 		_round_over()
 
 func _on_player2_dead():
-	dead_players += 1
+	var dead_players = 0
+	for player in players:
+		if player.dead:
+			dead_players += 1
 	if dead_players >= 3:
 		_round_over()
 

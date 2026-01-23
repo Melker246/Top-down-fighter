@@ -23,13 +23,14 @@ var team = 1
 var dead = false
 var attack_ongoing = false
 var attack_area_base_x_pos = 0
-var body_inside_attack = false
+var body_inside_attack = 0
 var attacked_body = []
 var can_attack = true
 var guard_ongoing = false
-var dash = not false
+var dash = false
 var dash_ongoing = false
 var can_dash = true
+var deflect = false
 
 enum {IDLE, RUN, ATTACK, GUARD, DASH, DEAD}
 var state = IDLE
@@ -72,7 +73,6 @@ func _movement(delta, input, speedkoefficent) -> void:
 
 func _hp_control() -> bool: #Dead = true, alive = false
 	if hp <= 0:
-		dead = true
 		return true
 	else:
 		return false
@@ -116,7 +116,7 @@ func _attack_state(delta) -> void:
 	input.y = Input.get_axis("up", "down")
 	input.x = Input.get_axis("left", "right")
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF*speed)
-	if body_inside_attack and can_attack and attack_ongoing:
+	if body_inside_attack >= 1 and can_attack and attack_ongoing:
 		can_attack = false
 		for body in attacked_body:
 			if body is House or body is Tower:
@@ -125,6 +125,8 @@ func _attack_state(delta) -> void:
 			else:
 				if not body.guard_ongoing:
 					body.hp -= damage
+				elif body.deflect:
+					hp -= 0.25*damage
 	if _hp_control():
 		enter_dead_state()
 	if not attack_ongoing:
@@ -185,7 +187,10 @@ func _enter_guard_state() -> void:
 	state = GUARD
 	guard_ongoing = true
 	guard_timer.start()
-	anim.play("guard")
+	if deflect:
+		anim.play("deflect")
+	else:
+		anim.play("guard")
 
 func _enter_dash_state() -> void:
 	state = DASH
@@ -203,17 +208,18 @@ func enter_dead_state() -> void:
 	state = DEAD
 	anim.play("death")
 	await anim.animation_finished
+	dead = true
 	emit_signal("player1_dead")
 	global_position = Vector2(-1000,-1000)
 	velocity = Vector2(0,0)
 
 
 func _on_attack_area_body_entered(body: Node2D) -> void:
-	body_inside_attack = true
+	body_inside_attack += 1
 	attacked_body.append(body)
 
 func _on_attack_area_body_exited(body: Node2D) -> void:
-	body_inside_attack = false
+	body_inside_attack -= 1
 	attacked_body.erase(body)
 
 func _on_attack_timer_timeout() -> void:
