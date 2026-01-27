@@ -1,6 +1,7 @@
 extends Node2D
 
 const ARCHER_TOWER_SCENE = preload("res://Scenes/archer_tower.tscn")
+const LANCER_SCENE = preload("res://Scenes/lancer.tscn")
 
 @onready var player1: CharacterBody2D = $Player
 @onready var player2: CharacterBody2D = $Player2
@@ -20,6 +21,8 @@ var blue_arrow = null
 var yellow_arrow = null
 var black_arrow = null
 var red_arrow = null
+
+var lancer
 
 var player_chosing_upgrades = 0
 
@@ -44,7 +47,7 @@ var bot2_speed_upgrades = 0
 var bot2_team_upgrades = 0
 
 var players = []
-
+var lancers = []
 
 func _ready() -> void:
 	players = [player1,player2,bot1,bot2]
@@ -73,6 +76,10 @@ func _physics_process(delta: float) -> void:
 	bot2.player2_pos = player2.position
 	bot1.bot2_pos = bot2.position
 	bot2.bot1_pos = bot1.position
+	
+	for lancer in lancers:
+		print(players[lancer.team-1].position)
+		lancer.player_position = players[lancer.team-1].global_position
 	
 	if blue_tower is StaticBody2D:
 		if blue_tower.can_shoot:
@@ -139,6 +146,8 @@ func _reset_upgrades(player):
 	player.hp = 100
 	player.damage = 50
 	player.speed = 1
+	for lancer in lancers:
+		lancer.queue_free()
 
 func _add_uppgrades():
 	if player1_health_upgrades >= 1:
@@ -157,15 +166,24 @@ func _add_uppgrades():
 			player1.dash = true
 			player1.speed *= 1.1 ** (player1_speed_upgrades - 2)
 	if player1_team_upgrades >= 1:
-		blue_tower = ARCHER_TOWER_SCENE.instantiate()
-		add_child(blue_tower)
-		blue_tower.connect("dead", _on_house_dead)
-		blue_tower.blue()
-		blue_house.hide()
-		blue_tower.position = blue_house.global_position
-		if player1_team_upgrades % 2 == 0:
-			#lancer
-			pass
+		if blue_tower is StaticBody2D:
+			blue_tower = ARCHER_TOWER_SCENE.instantiate()
+			add_child(blue_tower)
+			blue_tower.connect("dead", _on_house_dead)
+			blue_tower.blue()
+			blue_house.hide()
+			blue_tower.position = blue_house.global_position
+		else:
+			blue_tower.rebuild()
+			blue_house.hide()
+		var amount_lancers = int(player1_team_upgrades / 2)
+		while amount_lancers > 0:
+			lancer = LANCER_SCENE.instantiate()
+			add_child(lancer)
+			lancer.team = 1
+			lancer.position = blue_house.global_position
+			lancers.append(lancer)
+			amount_lancers -= 1
 	
 	if player2_health_upgrades >= 1:
 		player2.hp *= 1.5
@@ -183,16 +201,25 @@ func _add_uppgrades():
 			player2.dash = true
 			player2.speed *= 1.1 ** (player2_speed_upgrades - 2)
 	if player2_team_upgrades >= 1:
-		yellow_tower = ARCHER_TOWER_SCENE.instantiate()
-		add_child(yellow_tower)
-		yellow_tower.connect("dead", _on_house_dead)
-		yellow_tower.yellow()
-		yellow_house.hide()
-		yellow_tower.position = yellow_house.global_position
-		if player2_team_upgrades % 2 == 0:
-			#lancer
-			pass
-	
+		if yellow_tower is StaticBody2D:
+			yellow_tower = ARCHER_TOWER_SCENE.instantiate()
+			add_child(yellow_tower)
+			yellow_tower.connect("dead", _on_house_dead)
+			yellow_tower.yellow()
+			yellow_house.hide()
+			yellow_tower.position = yellow_house.global_position
+		else:
+			yellow_tower.rebuild()
+			yellow_house.hide()
+		var amount_lancers = int(player2_team_upgrades / 2)
+		while amount_lancers > 0:
+			lancer = LANCER_SCENE.instantiate()
+			add_child(lancer)
+			lancer.team = 2
+			lancer.position = yellow_house.global_position
+			lancers.append(lancer)
+			amount_lancers -= 1
+
 	if bot1_health_upgrades >= 1:
 		bot1.hp *= 1.5
 		if bot1_health_upgrades >= 2:
@@ -209,15 +236,24 @@ func _add_uppgrades():
 			bot1.dash = true
 			bot1.speed *= 1.1 ** (bot1_speed_upgrades - 2)
 	if bot1_team_upgrades >= 1:
-		black_tower = ARCHER_TOWER_SCENE.instantiate()
-		add_child(black_tower)
-		black_tower.connect("dead", _on_house_dead)
-		black_tower.black()
-		black_house.hide()
-		black_tower.position = black_house.global_position
-		if bot1_team_upgrades % 2 == 0:
-			#lancer
-			pass
+		if black_tower is StaticBody2D:
+			black_tower = ARCHER_TOWER_SCENE.instantiate()
+			add_child(black_tower)
+			black_tower.connect("dead", _on_house_dead)
+			black_tower.black()
+			black_house.hide()
+			black_tower.position = black_house.global_position
+		else:
+			black_tower.rebuild()
+			black_house.hide()
+		var amount_lancers = int(bot1_team_upgrades / 2)
+		while amount_lancers > 0:
+			lancer = LANCER_SCENE.instantiate()
+			add_child(lancer)
+			lancer.team = 3
+			lancer.position = black_house.global_position
+			lancers.append(lancer)
+			amount_lancers -= 1
 	
 	if bot2_health_upgrades >= 1:
 		bot2.hp *= 1.5
@@ -235,15 +271,24 @@ func _add_uppgrades():
 			bot2.dash = true
 			bot2.speed *= 1.1 ** (bot2_speed_upgrades - 2)
 	if bot2_team_upgrades >= 1:
-		red_tower = ARCHER_TOWER_SCENE.instantiate()
-		add_child(red_tower)
-		red_tower.connect("dead", _on_house_dead)
-		red_tower.red()
-		red_house.hide()
-		red_tower.position = red_house.global_position
-		if bot2_team_upgrades % 2 == 0:
-			#lancer
-			pass
+		if red_tower is StaticBody2D:
+			red_tower = ARCHER_TOWER_SCENE.instantiate()
+			add_child(red_tower)
+			red_tower.connect("dead", _on_house_dead)
+			red_tower.red()
+			red_house.hide()
+			red_tower.position = red_house.global_position
+		else:
+			red_tower.rebuild()
+			red_house.hide()
+		var amount_lancers = int(bot2_team_upgrades / 2)
+		while amount_lancers > 0:
+			lancer = LANCER_SCENE.instantiate()
+			add_child(lancer)
+			lancer.team = 4
+			lancer.position = red_house.global_position
+			lancers.append(lancer)
+			amount_lancers -= 1
 
 func _on_house_dead(team):
 	if team == 1:
@@ -264,6 +309,10 @@ func _on_bot1_dead():
 	for player in players:
 		if player.dead:
 			dead_players += 1
+	for lancer in lancers:
+		if lancer.team == 3:
+			lancers.erase(lancer)
+			lancer.queue_free()
 	if dead_players >= 3:
 		_round_over()
 
@@ -272,6 +321,10 @@ func _on_bot2_dead():
 	for player in players:
 		if player.dead:
 			dead_players += 1
+	for lancer in lancers:
+		if lancer.team == 4:
+			lancers.erase(lancer)
+			lancer.queue_free()
 	if dead_players >= 3:
 		_round_over()
 
@@ -280,6 +333,10 @@ func _on_player1_dead():
 	for player in players:
 		if player.dead:
 			dead_players += 1
+	for lancer in lancers:
+		if lancer.team == 1:
+			lancers.erase(lancer)
+			lancer.queue_free()
 	if dead_players >= 3:
 		_round_over()
 
@@ -288,6 +345,10 @@ func _on_player2_dead():
 	for player in players:
 		if player.dead:
 			dead_players += 1
+	for lancer in lancers:
+		if lancer.team == 2:
+			lancers.erase(lancer)
+			lancer.queue_free()
 	if dead_players >= 3:
 		_round_over()
 
