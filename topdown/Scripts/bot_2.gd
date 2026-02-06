@@ -28,7 +28,7 @@ var distance_to_bot1 = 0
 var hp = 100
 var damage = 50
 var speed = 1
-var team = 3
+var team = 4
 
 var dead = false
 var attack_ongoing = false
@@ -154,7 +154,6 @@ func _idle_state(delta) -> void:
 	elif bot_attack_or_guard_input == 0 and dash and can_dash:
 		_enter_dash_state()
 
-
 func _run_state(delta) -> void:
 	var input = bot_movement_input
 	_movement(delta, input, speed)
@@ -168,7 +167,6 @@ func _run_state(delta) -> void:
 		_enter_guard_state()
 	elif bot_attack_or_guard_input == 0 and dash and can_dash:
 		_enter_dash_state()
-
 
 func _attack_state(delta) -> void:
 	var input = bot_movement_input

@@ -60,7 +60,7 @@ func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2a
 			+20% speed
 			next 
 			+dash"
-		if p1team_upg == 1:
+		if p1team_upg >= 1:
 			if p1team_upg % 2 == 0:
 				team_button.text = "Team
 				+nothing

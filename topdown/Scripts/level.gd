@@ -78,8 +78,10 @@ func _physics_process(delta: float) -> void:
 	bot2.bot1_pos = bot1.position
 	
 	for lancer in lancers:
-		print(players[lancer.team-1].position)
 		lancer.player_position = players[lancer.team-1].global_position
+		for player in lancer.target_players:
+			lancer.target_players_positions = []
+			lancer.target_players_positions.append(players[player-1].global_position)
 	
 	if blue_tower is StaticBody2D:
 		if blue_tower.can_shoot:
@@ -147,6 +149,7 @@ func _reset_upgrades(player):
 	player.damage = 50
 	player.speed = 1
 	for lancer in lancers:
+		lancers.erase(lancer)
 		lancer.queue_free()
 
 func _add_uppgrades():
@@ -166,7 +169,7 @@ func _add_uppgrades():
 			player1.dash = true
 			player1.speed *= 1.1 ** (player1_speed_upgrades - 2)
 	if player1_team_upgrades >= 1:
-		if blue_tower is StaticBody2D:
+		if not blue_tower is StaticBody2D:
 			blue_tower = ARCHER_TOWER_SCENE.instantiate()
 			add_child(blue_tower)
 			blue_tower.connect("dead", _on_house_dead)
@@ -182,6 +185,8 @@ func _add_uppgrades():
 			add_child(lancer)
 			lancer.team = 1
 			lancer.position = blue_house.global_position
+			lancer.setup()
+			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
 			amount_lancers -= 1
 	
@@ -201,7 +206,7 @@ func _add_uppgrades():
 			player2.dash = true
 			player2.speed *= 1.1 ** (player2_speed_upgrades - 2)
 	if player2_team_upgrades >= 1:
-		if yellow_tower is StaticBody2D:
+		if not yellow_tower is StaticBody2D:
 			yellow_tower = ARCHER_TOWER_SCENE.instantiate()
 			add_child(yellow_tower)
 			yellow_tower.connect("dead", _on_house_dead)
@@ -217,6 +222,8 @@ func _add_uppgrades():
 			add_child(lancer)
 			lancer.team = 2
 			lancer.position = yellow_house.global_position
+			lancer.setup()
+			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
 			amount_lancers -= 1
 
@@ -228,7 +235,7 @@ func _add_uppgrades():
 	if bot1_attack_upgrades >= 1:
 		bot1.damage *= 1.5
 		if bot1_attack_upgrades >= 2:
-			bot1.deflect
+			bot1.deflect = true
 			bot1.damage *= 1.3 ** (bot1_attack_upgrades - 2)
 	if bot1_speed_upgrades >= 1:
 		bot1.speed *= 1.2
@@ -236,7 +243,7 @@ func _add_uppgrades():
 			bot1.dash = true
 			bot1.speed *= 1.1 ** (bot1_speed_upgrades - 2)
 	if bot1_team_upgrades >= 1:
-		if black_tower is StaticBody2D:
+		if not black_tower is StaticBody2D:
 			black_tower = ARCHER_TOWER_SCENE.instantiate()
 			add_child(black_tower)
 			black_tower.connect("dead", _on_house_dead)
@@ -252,6 +259,8 @@ func _add_uppgrades():
 			add_child(lancer)
 			lancer.team = 3
 			lancer.position = black_house.global_position
+			lancer.setup()
+			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
 			amount_lancers -= 1
 	
@@ -271,7 +280,7 @@ func _add_uppgrades():
 			bot2.dash = true
 			bot2.speed *= 1.1 ** (bot2_speed_upgrades - 2)
 	if bot2_team_upgrades >= 1:
-		if red_tower is StaticBody2D:
+		if not red_tower is StaticBody2D:
 			red_tower = ARCHER_TOWER_SCENE.instantiate()
 			add_child(red_tower)
 			red_tower.connect("dead", _on_house_dead)
@@ -287,6 +296,8 @@ func _add_uppgrades():
 			add_child(lancer)
 			lancer.team = 4
 			lancer.position = red_house.global_position
+			lancer.setup()
+			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
 			amount_lancers -= 1
 
@@ -312,7 +323,7 @@ func _on_bot1_dead():
 	for lancer in lancers:
 		if lancer.team == 3:
 			lancers.erase(lancer)
-			lancer.queue_free()
+			lancer.hp = 0
 	if dead_players >= 3:
 		_round_over()
 
@@ -324,7 +335,7 @@ func _on_bot2_dead():
 	for lancer in lancers:
 		if lancer.team == 4:
 			lancers.erase(lancer)
-			lancer.queue_free()
+			lancer.hp = 0
 	if dead_players >= 3:
 		_round_over()
 
@@ -336,7 +347,7 @@ func _on_player1_dead():
 	for lancer in lancers:
 		if lancer.team == 1:
 			lancers.erase(lancer)
-			lancer.queue_free()
+			lancer.hp = 0
 	if dead_players >= 3:
 		_round_over()
 
@@ -348,7 +359,7 @@ func _on_player2_dead():
 	for lancer in lancers:
 		if lancer.team == 2:
 			lancers.erase(lancer)
-			lancer.queue_free()
+			lancer.hp = 0
 	if dead_players >= 3:
 		_round_over()
 
@@ -395,3 +406,7 @@ func _team_button_pressed():
 		round_interference.hide()
 		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 		_start_new_round()
+
+func _on_lancer_dead(lancer):
+	lancers.erase(lancer)
+	lancer.queue_free()
