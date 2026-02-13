@@ -11,9 +11,13 @@ config_version=5
 [application]
 
 config/name="Top down fighter"
-run/main_scene="res://Scenes/level.tscn"
+run/main_scene="uid://dxptdigqsu442"
 config/features=PackedStringArray("4.4", "GL Compatibility")
 config/icon="uid://dsv46ls4gro6k"
+
+[autoload]
+
+MenuManager="*res://Scenes/menu_manager.tscn"
 
 [display]
 

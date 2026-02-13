@@ -1,7 +1,8 @@
-[gd_scene load_steps=17 format=3 uid="uid://b2kcay6rioiku"]
+[gd_scene load_steps=22 format=3 uid="uid://b2kcay6rioiku"]
 
 [ext_resource type="Script" uid="uid://djcfomwxtyrj" path="res://Scripts/bot_1.gd" id="1_mxhb6"]
 [ext_resource type="Texture2D" uid="uid://bvwj8e2tia821" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Attack1.png" id="2_pfx6o"]
+[ext_resource type="Texture2D" uid="uid://c7gsqurbj3hoq" path="res://Assets/Tiny Swords (Free Pack)/Units/Red Units/Monk/Heal_Effect.png" id="3_f0wpm"]
 [ext_resource type="Texture2D" uid="uid://bxfb4k5qtlfpx" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Attack2.png" id="3_mxhb6"]
 [ext_resource type="Texture2D" uid="uid://xq61xjgfldf" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Idle.png" id="4_f0wpm"]
 [ext_resource type="Texture2D" uid="uid://bis5gi5dg77gf" path="res://Assets/Tiny Swords (Free Pack)/Units/Black Units/Warrior/Warrior_Guard.png" id="5_gxxka"]
@@ -17,6 +18,7 @@ height = 96.0
 
 [sub_resource type="Animation" id="Animation_6t5aa"]
 length = 0.001
+step = 0.1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -76,6 +78,18 @@ tracks/4/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("HealEffect:frame")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
 }
 
 [sub_resource type="Animation" id="Animation_fkybt"]
@@ -453,6 +467,23 @@ tracks/4/keys = {
 "values": [0.0]
 }
 
+[sub_resource type="Animation" id="Animation_mxhb6"]
+resource_name = "heal"
+length = 1.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealEffect:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_vgqql"]
 _data = {
 &"RESET": SubResource("Animation_6t5aa"),
@@ -460,12 +491,51 @@ _data = {
 &"death": SubResource("Animation_8sl0u"),
 &"deflect": SubResource("Animation_pfx6o"),
 &"guard": SubResource("Animation_xrga1"),
+&"heal": SubResource("Animation_mxhb6"),
 &"idle": SubResource("Animation_cvnsp"),
 &"run": SubResource("Animation_vgqql")
 }
 
+[sub_resource type="Animation" id="Animation_f0wpm"]
+resource_name = "heal"
+length = 1.1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealEffect:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+}
+
+[sub_resource type="Animation" id="Animation_gxxka"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("HealEffect:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_gvf2u"]
+_data = {
+&"RESET": SubResource("Animation_gxxka"),
+&"heal": SubResource("Animation_f0wpm")
+}
+
 [node name="bot1" type="CharacterBody2D"]
-z_index = 2
+z_index = 3
 collision_layer = 8
 collision_mask = 31
 script = ExtResource("1_mxhb6")
@@ -474,6 +544,12 @@ script = ExtResource("1_mxhb6")
 position = Vector2(0, -34)
 texture = ExtResource("4_f0wpm")
 hframes = 8
+
+[node name="HealEffect" type="Sprite2D" parent="."]
+visible = false
+position = Vector2(0, -32)
+texture = ExtResource("3_f0wpm")
+hframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -32)
@@ -491,6 +567,11 @@ shape = SubResource("CapsuleShape2D_pfx6o")
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
 &"": SubResource("AnimationLibrary_vgqql")
+}
+
+[node name="AnimationPlayer2" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_gvf2u")
 }
 
 [node name="AttackTimer" type="Timer" parent="."]

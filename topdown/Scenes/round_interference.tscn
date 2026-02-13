@@ -192,7 +192,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_5w53i")
 text = "Health
 +50% hp
 next 
-monk"
++monk"
 
 [node name="AttackButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -205,7 +205,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_qhjqc")
 text = "Attack
 +50% dmg
 next 
-deflect"
++deflect"
 
 [node name="SpeedButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -218,7 +218,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_f7d76")
 text = "Speed
 +20% speed
 next
-dash"
++dash"
 
 [node name="TeamButton" type="Button" parent="HBoxContainer"]
 layout_mode = 2
@@ -231,7 +231,7 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_ou1bc")
 text = "Team
 +archer tower
 next 
-lancer
++lancer
 "
 icon_alignment = 1
 vertical_icon_alignment = 2

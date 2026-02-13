@@ -12,8 +12,10 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var dash_timer: Timer = $DashTimer
 @onready var dash_cooldown: Timer = $DashCooldown
 @onready var anim: AnimationPlayer = $AnimationPlayer
+@onready var anim2: AnimationPlayer = $AnimationPlayer2
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
+@onready var heal_effect: Sprite2D = $HealEffect
 
 var bot_movement_input = Vector2(0,0)
 var bot_attack_or_guard_input = 0
@@ -289,3 +291,11 @@ func _on_dash_timer_timeout() -> void:
 
 func _on_dash_cooldown_timeout() -> void:
 	can_dash = true
+
+
+
+func heal():
+	heal_effect.show()
+	anim2.play("heal")
+	await anim2.animation_finished
+	heal_effect.hide()

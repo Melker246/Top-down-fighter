@@ -2,6 +2,7 @@ extends Node2D
 
 const ARCHER_TOWER_SCENE = preload("res://Scenes/archer_tower.tscn")
 const LANCER_SCENE = preload("res://Scenes/lancer.tscn")
+const MONK_SCENE = preload("res://Scenes/monk.tscn")
 
 @onready var player1: CharacterBody2D = $Player
 @onready var player2: CharacterBody2D = $Player2
@@ -23,6 +24,7 @@ var black_arrow = null
 var red_arrow = null
 
 var lancer
+var monk
 
 var player_chosing_upgrades = 0
 
@@ -48,6 +50,7 @@ var bot2_team_upgrades = 0
 
 var players = []
 var lancers = []
+var monks = []
 
 func _ready() -> void:
 	players = [player1,player2,bot1,bot2]
@@ -151,12 +154,21 @@ func _reset_upgrades(player):
 	for lancer in lancers:
 		lancers.erase(lancer)
 		lancer.queue_free()
+	for monk in monks:
+		monks.erase(monk)
+		monk.queue_free()
 
 func _add_uppgrades():
 	if player1_health_upgrades >= 1:
 		player1.hp *= 1.5
 		if player1_health_upgrades >= 2:
-			#monk
+			monk = MONK_SCENE.instantiate()
+			add_child(monk)
+			monk.team = 1
+			monk.position = blue_house.global_position
+			monk.setup(1)
+			monk.connect("heal", _on_heal)
+			monks.append(monk)
 			player1.hp *= 1.4 ** (player1_health_upgrades - 2)
 	if player1_attack_upgrades >= 1:
 		player1.damage *= 1.5
@@ -175,15 +187,16 @@ func _add_uppgrades():
 			blue_tower.connect("dead", _on_house_dead)
 			blue_tower.blue()
 			blue_house.hide()
+			blue_house.collishon_shape.disabled = true
 			blue_tower.position = blue_house.global_position
 		else:
 			blue_tower.rebuild()
 			blue_house.hide()
+			blue_house.collishon_shape.disabled = true
 		var amount_lancers = int(player1_team_upgrades / 2)
 		while amount_lancers > 0:
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
-			lancer.team = 1
 			lancer.position = blue_house.global_position
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
@@ -193,7 +206,12 @@ func _add_uppgrades():
 	if player2_health_upgrades >= 1:
 		player2.hp *= 1.5
 		if player2_health_upgrades >= 2:
-			#monk
+			monk = MONK_SCENE.instantiate()
+			add_child(monk)
+			monk.position = yellow_house.global_position
+			monk.setup(2)
+			monk.connect("heal", _on_heal)
+			monks.append(monk)
 			player2.hp *= 1.4 ** (player2_health_upgrades - 2)
 	if player2_attack_upgrades >= 1:
 		player2.damage *= 1.5
@@ -212,10 +230,12 @@ func _add_uppgrades():
 			yellow_tower.connect("dead", _on_house_dead)
 			yellow_tower.yellow()
 			yellow_house.hide()
+			yellow_house.collishon_shape.disabled = true
 			yellow_tower.position = yellow_house.global_position
 		else:
 			yellow_tower.rebuild()
 			yellow_house.hide()
+			yellow_house.collishon_shape.disabled = true
 		var amount_lancers = int(player2_team_upgrades / 2)
 		while amount_lancers > 0:
 			lancer = LANCER_SCENE.instantiate()
@@ -230,7 +250,12 @@ func _add_uppgrades():
 	if bot1_health_upgrades >= 1:
 		bot1.hp *= 1.5
 		if bot1_health_upgrades >= 2:
-			#monk
+			monk = MONK_SCENE.instantiate()
+			add_child(monk)
+			monk.position = black_house.global_position
+			monk.setup(3)
+			monk.connect("heal", _on_heal)
+			monks.append(monk)
 			bot1.hp *= 1.4 ** (bot1_health_upgrades - 2)
 	if bot1_attack_upgrades >= 1:
 		bot1.damage *= 1.5
@@ -249,10 +274,12 @@ func _add_uppgrades():
 			black_tower.connect("dead", _on_house_dead)
 			black_tower.black()
 			black_house.hide()
+			black_house.collishon_shape.disabled = true
 			black_tower.position = black_house.global_position
 		else:
 			black_tower.rebuild()
 			black_house.hide()
+			black_house.collishon_shape.disabled = true
 		var amount_lancers = int(bot1_team_upgrades / 2)
 		while amount_lancers > 0:
 			lancer = LANCER_SCENE.instantiate()
@@ -267,7 +294,12 @@ func _add_uppgrades():
 	if bot2_health_upgrades >= 1:
 		bot2.hp *= 1.5
 		if bot2_health_upgrades >= 2:
-			#monk
+			monk = MONK_SCENE.instantiate()
+			add_child(monk)
+			monk.position = red_house.global_position
+			monk.setup(4)
+			monk.connect("heal", _on_heal)
+			monks.append(monk)
 			bot2.hp *= 1.4 ** (bot2_health_upgrades - 2)
 	if bot2_attack_upgrades >= 1:
 		bot2.damage *= 1.5
@@ -286,10 +318,12 @@ func _add_uppgrades():
 			red_tower.connect("dead", _on_house_dead)
 			red_tower.red()
 			red_house.hide()
+			red_house.collishon_shape.disabled = true
 			red_tower.position = red_house.global_position
 		else:
 			red_tower.rebuild()
 			red_house.hide()
+			red_house.collishon_shape.disabled = true
 		var amount_lancers = int(bot2_team_upgrades / 2)
 		while amount_lancers > 0:
 			lancer = LANCER_SCENE.instantiate()
@@ -305,15 +339,31 @@ func _on_house_dead(team):
 	if team == 1:
 		if not player1.dead:
 			player1.enter_dead_state()
+		for monk in monks:
+			if monk.team == 1:
+				monks.erase(monk)
+				monk.queue_free()
 	elif team == 2:
 		if not player2.dead:
 			player2.enter_dead_state()
+		for monk in monks:
+			if monk.team == 2:
+				monks.erase(monk)
+				monk.queue_free()
 	elif team == 3:
 		if not bot1.dead:
 			bot1.enter_dead_state()
+		for monk in monks:
+			if monk.team == 3:
+				monks.erase(monk)
+				monk.queue_free()
 	else:
 		if not bot2.dead:
 			bot2.enter_dead_state()
+		for monk in monks:
+			if monk.team == 4:
+				monks.erase(monk)
+				monk.queue_free()
 
 func _on_bot1_dead():
 	var dead_players = 0
@@ -410,3 +460,7 @@ func _team_button_pressed():
 func _on_lancer_dead(lancer):
 	lancers.erase(lancer)
 	lancer.queue_free()
+
+func _on_heal(team, amount, monk):
+	players[team-1].hp += amount
+	players[team-1].heal()

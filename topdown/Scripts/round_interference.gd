@@ -29,7 +29,7 @@ func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2a
 			health_button.text = "Health
 			+50% hp
 			next 
-			monk"
+			+monk"
 		if p1atta_upg == 1:
 			attack_button.text = "Attack
 			+deflect
@@ -44,7 +44,7 @@ func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2a
 			attack_button.text = "Attack
 			+50% dmg
 			next 
-			deflect"
+			+deflect"
 		if p1spee_upg == 1:
 			speed_button.text = "Speed
 			+dash
@@ -91,7 +91,7 @@ func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2a
 			health_button.text = "Health
 			+50% hp
 			next 
-			monk"
+			+monk"
 		if p2atta_upg == 1:
 			attack_button.text = "Attack
 			+deflect
@@ -106,7 +106,7 @@ func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2a
 			attack_button.text = "Attack
 			+50% dmg
 			next 
-			deflect"
+			+deflect"
 		if p2spee_upg == 1:
 			speed_button.text = "Speed
 			+dash
