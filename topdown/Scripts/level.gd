@@ -13,6 +13,11 @@ const MONK_SCENE = preload("res://Scenes/monk.tscn")
 @onready var red_house: StaticBody2D = $RedHouse
 @onready var black_house: StaticBody2D = $BlackHouse
 @onready var round_interference: CanvasLayer = $Round_interference
+@onready var black_label: Label = $Hud/BlackLabel
+@onready var blue_label: Label = $Hud/BlueLabel
+@onready var red_label: Label = $Hud/RedLabel
+@onready var yellow_label: Label = $Hud/YellowLabel
+@onready var round_label: Label = $Hud/RoundLabel
 
 var blue_tower = null
 var yellow_tower = null
@@ -51,6 +56,8 @@ var bot2_team_upgrades = 0
 var players = []
 var lancers = []
 var monks = []
+
+var round = 1
 
 func _ready() -> void:
 	players = [player1,player2,bot1,bot2]
@@ -103,26 +110,40 @@ func _physics_process(delta: float) -> void:
 			red_tower.shoot_players(player2,bot1,player1)
 
 func _round_over():
-	round_interference.show()
-	player_chosing_upgrades = 1
-	var random_bot1_upgrade = randi_range(1,4)
-	if random_bot1_upgrade == 1:
-		bot1_health_upgrades += 1
-	elif random_bot1_upgrade == 2:
-		bot1_attack_upgrades += 1
-	elif random_bot1_upgrade == 3:
-		bot1_speed_upgrades += 1
+	round += 1
+	if round >= 1:
+		MenuManager.game_over()
 	else:
-		bot1_team_upgrades += 1
-	var random_bot2_upgrade = randi_range(1,4)
-	if random_bot2_upgrade == 1:
-		bot2_health_upgrades += 1
-	elif random_bot2_upgrade == 2:
-		bot2_attack_upgrades += 1
-	elif random_bot2_upgrade == 3:
-		bot2_speed_upgrades += 1
-	else:
-		bot2_team_upgrades += 1
+		for player in players:
+			if not player.dead:
+				if player.team == 1:
+					Globals.blue_wins += 1
+				elif player.team == 2:
+					Globals.yellow_wins += 1
+				elif player.team == 3:
+					Globals.black_wins += 1
+				elif player.team == 4:
+					Globals.red_wins += 1
+		round_interference.show()
+		player_chosing_upgrades = 1
+		var random_bot1_upgrade = randi_range(1,4)
+		if random_bot1_upgrade == 1:
+			bot1_health_upgrades += 1
+		elif random_bot1_upgrade == 2:
+			bot1_attack_upgrades += 1
+		elif random_bot1_upgrade == 3:
+			bot1_speed_upgrades += 1
+		else:
+			bot1_team_upgrades += 1
+		var random_bot2_upgrade = randi_range(1,4)
+		if random_bot2_upgrade == 1:
+			bot2_health_upgrades += 1
+		elif random_bot2_upgrade == 2:
+			bot2_attack_upgrades += 1
+		elif random_bot2_upgrade == 3:
+			bot2_speed_upgrades += 1
+		else:
+			bot2_team_upgrades += 1
 
 func _start_new_round():
 	_reset_upgrades(player1)
@@ -145,6 +166,7 @@ func _start_new_round():
 	player2.enter_idle_state()
 	bot1.enter_idle_state()
 	bot2.enter_idle_state()
+	_labels()
 	_add_uppgrades()
 
 func _reset_upgrades(player):
@@ -334,6 +356,14 @@ func _add_uppgrades():
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
 			amount_lancers -= 1
+
+func _labels():
+	black_label.text = " Black Wins: " + str(Globals.black_wins)
+	blue_label.text = " Blue Wins: " + str(Globals.blue_wins)
+	yellow_label.text = " Yellow Wins: " + str(Globals.yellow_wins)
+	red_label.text = " Red Wins: " + str(Globals.red_wins)
+	round_label.text = "Round: " + str(round)
+	
 
 func _on_house_dead(team):
 	if team == 1:
