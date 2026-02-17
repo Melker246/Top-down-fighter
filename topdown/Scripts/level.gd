@@ -111,10 +111,7 @@ func _physics_process(delta: float) -> void:
 
 func _round_over():
 	round += 1
-	if round >= 1:
-		MenuManager.game_over()
-	else:
-		for player in players:
+	for player in players:
 			if not player.dead:
 				if player.team == 1:
 					Globals.blue_wins += 1
@@ -124,6 +121,9 @@ func _round_over():
 					Globals.black_wins += 1
 				elif player.team == 4:
 					Globals.red_wins += 1
+	if round >= 15:
+		MenuManager.game_over()
+	else:
 		round_interference.show()
 		player_chosing_upgrades = 1
 		var random_bot1_upgrade = randi_range(1,4)
