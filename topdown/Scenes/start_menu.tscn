@@ -1,7 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://dxptdigqsu442"]
+[gd_scene load_steps=11 format=3 uid="uid://dxptdigqsu442"]
 
 [ext_resource type="Script" uid="uid://dn7gv6ye4c1pw" path="res://Scripts/start_menu.gd" id="1_jgtwh"]
 [ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://Assets/canterbury/Canterbury.ttf" id="1_juhg0"]
+[ext_resource type="Texture2D" uid="uid://betlm5bno3fwk" path="res://Assets/Tiny Swords (Free Pack)/Units/Blue Units/Warrior/Warrior_Idle.png" id="3_a43kq"]
+[ext_resource type="Texture2D" uid="uid://tmrxiwofhv2w" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Warrior/Warrior_Idle.png" id="4_626he"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_juhg0"]
 bg_color = Color(0.0392157, 0.615686, 0.0392157, 1)
@@ -39,6 +41,69 @@ corner_radius_top_right = 60
 corner_radius_bottom_right = 60
 corner_radius_bottom_left = 60
 
+[sub_resource type="Animation" id="Animation_8u0lp"]
+resource_name = "idle"
+length = 0.8
+loop_mode = 1
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 7]
+}
+
+[sub_resource type="Animation" id="Animation_i2i62"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D2:frame")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lfskg"]
+_data = {
+&"RESET": SubResource("Animation_i2i62"),
+&"idle": SubResource("Animation_8u0lp")
+}
+
 [node name="StartMenu" type="CanvasLayer"]
 layer = 13
 script = ExtResource("1_jgtwh")
@@ -62,5 +127,61 @@ theme_override_styles/pressed = SubResource("StyleBoxFlat_m6uer")
 theme_override_styles/normal = SubResource("StyleBoxFlat_jgtwh")
 text = "start
 "
+
+[node name="Label" type="Label" parent="."]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 50.0
+offset_top = -557.0
+offset_right = 353.0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_juhg0")
+theme_override_font_sizes/font_size = 90
+text = "w - up
+a -right
+s - down
+d - left
+q - guard
+e - attack
+2 - dash"
+
+[node name="Label2" type="Label" parent="."]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -303.0
+offset_top = -557.0
+grow_horizontal = 0
+grow_vertical = 0
+theme_override_fonts/font = ExtResource("1_juhg0")
+theme_override_font_sizes/font_size = 90
+text = "i - up
+k -right
+j - down
+l - left
+u - guard
+o - attack
+8 - dash"
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(170, 410)
+scale = Vector2(3, 3)
+texture = ExtResource("3_a43kq")
+hframes = 8
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(1750, 410)
+scale = Vector2(3, 3)
+texture = ExtResource("4_626he")
+flip_h = true
+hframes = 8
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_lfskg")
+}
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
