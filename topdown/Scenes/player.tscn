@@ -522,27 +522,25 @@ collision_mask = 31
 script = ExtResource("1_cvnsp")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -34)
 texture = ExtResource("1_v0iea")
 hframes = 8
 
 [node name="HealEffect" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -32)
+position = Vector2(0, 2)
 texture = ExtResource("7_3smsa")
 hframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -32)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_cvnsp")
 
 [node name="AttackArea" type="Area2D" parent="."]
-position = Vector2(29, -32)
+position = Vector2(29, 2)
 collision_layer = 0
 collision_mask = 60
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(-10, 6)
 shape = SubResource("CapsuleShape2D_6t5aa")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

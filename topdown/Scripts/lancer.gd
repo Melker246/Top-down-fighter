@@ -27,18 +27,32 @@ var target_players_positions = []
 var target_players = []
 var targets_inside_area = 0
 var player_position = Vector2(0,0)
-var attack = true
 var guard_ongoing = false
+var attack = true
 var attacked_body = null
 var dead = false
 
+var layer1 = true
+var layer2 = false
+var layer3 = false
+
 enum{TOP,TOP_RIGHT,RIGHT,DOWN_RIGHT,DOWN,DOWN_LEFT,LEFT,TOP_LEFT}
 var att_dir = TOP
+var path = ""
+var first_time = true
 
 func setup():
 	set_collision_layer_value(team+1,true)
 	attack_area.set_collision_mask_value(team+1,false)
 	player_detecter.set_collision_mask_value(team+1,false)
+	if team == 1:
+		path = "blue"
+	elif team == 2:
+		path = "yellow"
+	elif team == 3:
+		path = "black"
+	elif team == 4:
+		path = "red"
 
 func _physics_process(delta: float) -> void:
 	if not dead:
@@ -72,9 +86,7 @@ func _physics_process(delta: float) -> void:
 			dead = true
 
 func _movement(target, delta):
-	if target.x != 0 and target.y != 0:
-		var pythagorean = 1/sqrt(target.x**2 + target.y**2)
-		target = target * pythagorean
+	target = target.normalized()
 	velocity.x = move_toward(velocity.x, target.x*MAX_SPEED, ACC*delta)
 	velocity.y = move_toward(velocity.y, target.y*MAX_SPEED, ACC*delta)
 	move_and_slide()
@@ -120,21 +132,13 @@ func _attack(target: Vector2):
 			att_dir = DOWN
 	if attack:
 		if attacked_body is CharacterBody2D:
-			attacked_body.hp -= damage
-			attack = false
-			$Timer.start()
+			if not attacked_body.guard_ongoing and ((attacked_body.layer1 and layer1) or (attacked_body.layer2 and layer2) or (attacked_body.layer3 and layer3)):
+				attacked_body.hp -= damage
+				attack = false
+				$Timer.start()
 	_anim(true, false)
 
 func _anim(attacks, run):
-	var path = ""
-	if team == 1:
-		path = "blue"
-	elif team == 2:
-		path = "yellow"
-	elif team == 3:
-		path = "black"
-	elif team == 4:
-		path = "red"
 	if attacks:
 		match att_dir:
 			TOP:

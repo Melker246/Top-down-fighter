@@ -17,6 +17,10 @@ var team = 0
 var can_shoot = true
 var destroyed = false
 
+var layer1 = true
+var layer2 = false
+var layer3 = false
+
 func shoot_players(player1,player2,player3):
 	if not destroyed:
 		if (player1.position-position).length() < 300 or (player2.position-position).length() < 300 or (player3.position-position).length() < 300:

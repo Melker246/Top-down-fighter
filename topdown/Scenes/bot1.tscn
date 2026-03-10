@@ -541,27 +541,25 @@ collision_mask = 31
 script = ExtResource("1_mxhb6")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(0, -34)
 texture = ExtResource("4_f0wpm")
 hframes = 8
 
 [node name="HealEffect" type="Sprite2D" parent="."]
 visible = false
-position = Vector2(0, -32)
+position = Vector2(0, 2)
 texture = ExtResource("3_f0wpm")
 hframes = 11
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -32)
+position = Vector2(0, 2)
 shape = SubResource("CapsuleShape2D_cvnsp")
 
 [node name="AttackArea" type="Area2D" parent="."]
-position = Vector2(29, -32)
+position = Vector2(29, 2)
 collision_layer = 0
 collision_mask = 54
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AttackArea"]
-position = Vector2(-10, 6)
 shape = SubResource("CapsuleShape2D_pfx6o")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
@@ -589,6 +587,10 @@ one_shot = true
 [node name="DashCooldown" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 30.0
+max_speed = 1000.0
 
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]

@@ -10,6 +10,10 @@ signal dead(team)
 
 var team = 0
 
+var layer1 = true
+var layer2 = false
+var layer3 = false
+
 func destroy():
 	emit_signal("dead", team)
 	hide()

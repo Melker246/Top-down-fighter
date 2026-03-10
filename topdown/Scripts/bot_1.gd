@@ -16,6 +16,7 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var heal_effect: Sprite2D = $HealEffect
+@onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 
 var bot_movement_input = Vector2(0,0)
 var bot_attack_or_guard_input = 0
@@ -44,6 +45,10 @@ var dash_ongoing = false
 var can_dash = true
 var deflect = false
 
+var layer1 = true
+var layer2 = false
+var layer3 = false
+
 enum {IDLE, RUN, ATTACK, GUARD, DASH, DEAD}
 var state = IDLE
 
@@ -55,6 +60,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if not dead:
 		get_input()
+		bot_movement_input = navigation_agent.get_next_path_position() - global_position
 		match state:
 			IDLE:
 				_idle_state(delta)
@@ -70,10 +76,8 @@ func _physics_process(delta: float) -> void:
 				_dead_state(delta)
 
 ################ HELP FUNCTIONS ############
-func _movement(delta, input, speedkoefficent) -> void:
-	if input.x != 0 and input.y != 0:
-		var pythagorean = 1/sqrt(input.x**2 + input.y**2)
-		input = input * pythagorean
+func _movement(delta, input: Vector2, speedkoefficent) -> void:
+	input = input.normalized()
 	velocity.x = move_toward(velocity.x, input.x*MAX_SPEED*speedkoefficent, ACC*delta)
 	velocity.y = move_toward(velocity.y, input.y*MAX_SPEED*speedkoefficent, ACC*delta)
 	move_and_slide()
@@ -108,10 +112,7 @@ func get_input():
 		else:
 			distance_to_bot2 = 4095
 		if distance_to_player1 < distance_to_player2 and distance_to_player1 < distance_to_bot2:
-			if distance_to_player1 > 30:
-				bot_movement_input = player1_pos -position
-			else:
-				bot_movement_input = Vector2(0,0)
+			navigation_agent.target_position = player1_pos
 			if distance_to_player1 < 70:
 				bot_attack_or_guard_input = 1
 			elif distance_to_player1 < 100:
@@ -119,10 +120,7 @@ func get_input():
 			else:
 				bot_attack_or_guard_input = 0
 		elif distance_to_player2 < distance_to_bot2:
-			if distance_to_player2 > 30:
-				bot_movement_input = player2_pos - position
-			else:
-				bot_movement_input = Vector2(0,0)
+			navigation_agent.target_position = player2_pos
 			if distance_to_player2 < 70:
 				bot_attack_or_guard_input = 1
 			elif distance_to_player2 < 100:
@@ -130,10 +128,7 @@ func get_input():
 			else:
 				bot_attack_or_guard_input = 0
 		else:
-			if distance_to_bot2 > 30:
-				bot_movement_input = bot2_pos - position
-			else:
-				bot_movement_input = Vector2(0,0)
+			navigation_agent.target_position = bot2_pos
 			if distance_to_bot2 < 70:
 				bot_attack_or_guard_input = 1
 			elif distance_to_bot2 < 100:
@@ -179,7 +174,7 @@ func _attack_state(delta) -> void:
 			if body is House or body is Tower:
 				if team != body.team:
 					body.destroy()
-			else:
+			elif (body.layer1 and layer1) or (body.layer2 and layer2) or (body.layer3 and layer3):
 				if not body.guard_ongoing:
 					body.hp -= damage
 				elif body.deflect:

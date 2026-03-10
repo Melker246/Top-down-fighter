@@ -34,6 +34,10 @@ var dash_ongoing = false
 var can_dash = true
 var deflect = false
 
+var layer1 = true
+var layer2 = false
+var layer3 = false
+
 enum {IDLE, RUN, ATTACK, GUARD, DASH, DEAD}
 var state = IDLE
 
@@ -60,9 +64,7 @@ func _physics_process(delta: float) -> void:
 
 ################ HELP FUNCTIONS
 func _movement(delta, input, speedkoefficent) -> void:
-	if input.x != 0 and input.y != 0:
-		var pythagorean = 1/sqrt(input.x**2 + input.y**2)
-		input = input * pythagorean
+	input = input.normalized()
 	velocity.x = move_toward(velocity.x, input.x*MAX_SPEED*speedkoefficent, ACC*delta)
 	velocity.y = move_toward(velocity.y, input.y*MAX_SPEED*speedkoefficent, ACC*delta)
 	move_and_slide()
@@ -125,7 +127,7 @@ func _attack_state(delta) -> void:
 			if body is House or body is Tower:
 				if team != body.team:
 					body.destroy()
-			else:
+			elif (body.layer1 and layer1) or (body.layer2 and layer2) or (body.layer3 and layer3):
 				if not body.guard_ongoing:
 					body.hp -= damage
 				elif body.deflect:

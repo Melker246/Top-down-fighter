@@ -219,6 +219,7 @@ func _add_uppgrades():
 		while amount_lancers > 0:
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
+			lancer.team = 1
 			lancer.position = blue_house.global_position
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
@@ -494,3 +495,21 @@ func _on_lancer_dead(lancer):
 func _on_heal(team, amount, monk):
 	players[team-1].hp += amount
 	players[team-1].heal()
+
+func _on_layer_2_body_entered(body: Node2D) -> void:
+	body.layer2 = true
+
+func _on_layer_2_body_exited(body: Node2D) -> void:
+	body.layer2 = false
+
+func _on_layer_1_body_entered(body: Node2D) -> void:
+	body.layer1 = true
+
+func _on_layer_1_body_exited(body: Node2D) -> void:
+	body.layer1 = false
+
+func _on_layer_3_body_entered(body: Node2D) -> void:
+	body.layer3 = true
+
+func _on_layer_3_body_exited(body: Node2D) -> void:
+	body.layer3 = false
