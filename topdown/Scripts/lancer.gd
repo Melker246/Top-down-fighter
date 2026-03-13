@@ -61,7 +61,7 @@ func _physics_process(delta: float) -> void:
 			for pos in target_players_positions:
 				if (pos - global_position).length() < closest_target_pos.length():
 					closest_target_pos = pos - global_position
-			if closest_target_pos.length() > 50:
+			if closest_target_pos.length() > 100:
 				_movement(closest_target_pos, delta)
 			else:
 				_movement(Vector2(0,0), delta)

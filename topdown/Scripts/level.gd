@@ -87,6 +87,20 @@ func _physics_process(delta: float) -> void:
 	bot1.bot2_pos = bot2.position
 	bot2.bot1_pos = bot1.position
 	
+	for player in players:
+		if player in $Layer1.get_overlapping_bodies():
+			player.layer1 = true
+		else:
+			player.layer1 = false
+		if player in $Layer2.get_overlapping_bodies():
+			player.layer2 = true
+		else:
+			player.layer2 = false
+		if player in $Layer3.get_overlapping_bodies():
+			player.layer3 = true
+		else:
+			player.layer3 = false
+	
 	for lancer in lancers:
 		lancer.player_position = players[lancer.team-1].global_position
 		for player in lancer.target_players:
@@ -220,7 +234,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 1
-			lancer.position = blue_house.global_position
+			lancer.position = blue_house.global_position + Vector2(0,40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -264,7 +278,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 2
-			lancer.position = yellow_house.global_position
+			lancer.position = yellow_house.global_position + Vector2(0,40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -308,7 +322,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 3
-			lancer.position = black_house.global_position
+			lancer.position = black_house.global_position + Vector2(0,40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -352,7 +366,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 4
-			lancer.position = red_house.global_position
+			lancer.position = red_house.global_position + Vector2(0,40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -496,6 +510,7 @@ func _on_heal(team, amount, monk):
 	players[team-1].hp += amount
 	players[team-1].heal()
 
+"
 func _on_layer_2_body_entered(body: Node2D) -> void:
 	body.layer2 = true
 
@@ -513,3 +528,4 @@ func _on_layer_3_body_entered(body: Node2D) -> void:
 
 func _on_layer_3_body_exited(body: Node2D) -> void:
 	body.layer3 = false
+"

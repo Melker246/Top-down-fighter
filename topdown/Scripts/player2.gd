@@ -124,10 +124,13 @@ func _attack_state(delta) -> void:
 	if body_inside_attack >= 1 and can_attack and attack_ongoing:
 		can_attack = false
 		for body in attacked_body:
+			print(layer1,layer2,layer3)
 			if body is House or body is Tower:
+				print(3)
 				if team != body.team:
 					body.destroy()
 			elif (body.layer1 and layer1) or (body.layer2 and layer2) or (body.layer3 and layer3):
+				print(1)
 				if not body.guard_ongoing:
 					body.hp -= damage
 				elif body.deflect:
