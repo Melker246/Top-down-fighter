@@ -1,6 +1,7 @@
 extends Node2D
 
 const LEVEL_SCENE = "res://Scenes/level.tscn"
+const START_SCENE = "res://Scenes/start_menu.tscn"
 const GAME_OVER_SCENE = "res://Scenes/game_over_menu.tscn"
 
 @onready var anim: AnimationPlayer = $AnimationPlayer
@@ -11,7 +12,14 @@ func start():
 	anim.play("fade_in")
 	await anim.animation_finished
 	anim.play("fade_out")
+	get_tree().change_scene_to_file(START_SCENE)
+
+func start_level():
+	anim.play("fade_in")
+	await anim.animation_finished
+	anim.play("fade_out")
 	get_tree().change_scene_to_file(LEVEL_SCENE)
+	$PauseMenu.audio.stream_paused = true
 
 func game_over():
 	anim.play("fade_in")
@@ -30,3 +38,4 @@ func toggle_pause():
 	is_paused = not is_paused
 	get_tree().paused = is_paused
 	$PauseMenu.visible = is_paused
+	$PauseMenu.audio.stream_paused = not is_paused

@@ -742,7 +742,7 @@ libraries = {
 }
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
-layer = 12
+layer = 14
 
 [node name="Sheep" type="Sprite2D" parent="CanvasLayer"]
 modulate = Color(1, 1, 1, 0)

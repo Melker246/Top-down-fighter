@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d2sdn3sk8q46s"]
+[gd_scene load_steps=25 format=3 uid="uid://d2sdn3sk8q46s"]
 
 [ext_resource type="Script" uid="uid://bh73ack1vf6hb" path="res://Scripts/player2.gd" id="1_5fhls"]
 [ext_resource type="Texture2D" uid="uid://tmrxiwofhv2w" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Warrior/Warrior_Idle.png" id="2_5fhls"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://c83qj7b43ktfp" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Warrior/Warrior_Attack2.png" id="4_xrga1"]
 [ext_resource type="Texture2D" uid="uid://cu2iow0cksbs2" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Warrior/Warrior_Run.png" id="5_o6vle"]
 [ext_resource type="Texture2D" uid="uid://cvlypi4y3xbqy" path="res://Assets/Tiny Swords (Free Pack)/Units/Yellow Units/Warrior/Warrior_Guard.png" id="6_8sl0u"]
+[ext_resource type="AudioStream" uid="uid://ds7xjlwtvypma" path="res://audio/die2.wav" id="8_o6vle"]
+[ext_resource type="AudioStream" uid="uid://dx37vdiffnu0n" path="res://audio/sword_sfx.wav" id="9_nqlr8"]
+[ext_resource type="AudioStream" uid="uid://y17ht5an8s44" path="res://audio/swish-4.wav" id="10_bn1s6"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_cvnsp"]
 radius = 15.0
@@ -586,6 +589,17 @@ one_shot = true
 [node name="DashCooldown" type="Timer" parent="."]
 wait_time = 1.5
 one_shot = true
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("8_o6vle")
+
+[node name="AudioStreamPlayer2" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("9_nqlr8")
+volume_db = 10.0
+
+[node name="AudioStreamPlayer3" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("10_bn1s6")
+volume_db = 3.0
 
 [connection signal="body_entered" from="AttackArea" to="." method="_on_attack_area_body_entered"]
 [connection signal="body_exited" from="AttackArea" to="." method="_on_attack_area_body_exited"]

@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmi7t8gpmthbx"]
+[gd_scene load_steps=7 format=3 uid="uid://dmi7t8gpmthbx"]
 
 [ext_resource type="Script" uid="uid://cihvymea2j3id" path="res://Scripts/pause_menu.gd" id="1_k0w1u"]
+[ext_resource type="AudioStream" uid="uid://tbcdl6mjciyd" path="res://audio/022815townbgm.mp3" id="3_1och7"]
 [ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://Assets/canterbury/Canterbury.ttf" id="4_sjs17"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_juhg0"]
@@ -101,6 +102,11 @@ theme_override_styles/hover = SubResource("StyleBoxFlat_juhg0")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_m6uer")
 theme_override_styles/normal = SubResource("StyleBoxFlat_jgtwh")
 text = "continue"
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("3_1och7")
+volume_db = 10.0
+parameters/looping = true
 
 [connection signal="pressed" from="Button" to="." method="_on_button_pressed"]
 [connection signal="pressed" from="Button2" to="." method="_on_button_2_pressed"]

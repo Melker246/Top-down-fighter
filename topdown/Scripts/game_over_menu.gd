@@ -9,6 +9,7 @@ func _ready() -> void:
 		$Label.text = "Blue Wins"
 	elif Globals.yellow_wins > Globals.black_wins and Globals.yellow_wins > Globals.blue_wins and Globals.yellow_wins > Globals.red_wins:
 		$Label.text = "Blue Wins"
+	
 
 func _on_button_pressed() -> void:
 	MenuManager.start()

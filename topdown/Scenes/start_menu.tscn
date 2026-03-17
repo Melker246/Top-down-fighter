@@ -139,7 +139,7 @@ grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_juhg0")
 theme_override_font_sizes/font_size = 90
 text = "w - up
-a -right
+a - right
 s - down
 d - left
 q - guard
@@ -159,7 +159,7 @@ grow_vertical = 0
 theme_override_fonts/font = ExtResource("1_juhg0")
 theme_override_font_sizes/font_size = 90
 text = "i - up
-k -right
+k - right
 j - down
 l - left
 u - guard

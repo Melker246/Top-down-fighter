@@ -60,6 +60,7 @@ var monks = []
 var round = 1
 
 func _ready() -> void:
+	$AudioStreamPlayer.play()
 	players = [player1,player2,bot1,bot2]
 	blue_house.blue()
 	yellow_house.yellow()
@@ -234,7 +235,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 1
-			lancer.position = blue_house.global_position + Vector2(0,40)
+			lancer.position = blue_house.global_position + Vector2(0,amount_lancers*40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -278,7 +279,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 2
-			lancer.position = yellow_house.global_position + Vector2(0,40)
+			lancer.position = yellow_house.global_position + Vector2(0,amount_lancers*40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -322,7 +323,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 3
-			lancer.position = black_house.global_position + Vector2(0,40)
+			lancer.position = black_house.global_position + Vector2(0,amount_lancers*40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -366,7 +367,7 @@ func _add_uppgrades():
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 4
-			lancer.position = red_house.global_position + Vector2(0,40)
+			lancer.position = red_house.global_position + Vector2(0,amount_lancers*40)
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
@@ -509,23 +510,3 @@ func _on_lancer_dead(lancer):
 func _on_heal(team, amount, monk):
 	players[team-1].hp += amount
 	players[team-1].heal()
-
-"
-func _on_layer_2_body_entered(body: Node2D) -> void:
-	body.layer2 = true
-
-func _on_layer_2_body_exited(body: Node2D) -> void:
-	body.layer2 = false
-
-func _on_layer_1_body_entered(body: Node2D) -> void:
-	body.layer1 = true
-
-func _on_layer_1_body_exited(body: Node2D) -> void:
-	body.layer1 = false
-
-func _on_layer_3_body_entered(body: Node2D) -> void:
-	body.layer3 = true
-
-func _on_layer_3_body_exited(body: Node2D) -> void:
-	body.layer3 = false
-"

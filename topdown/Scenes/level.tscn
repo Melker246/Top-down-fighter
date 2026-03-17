@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://gg2uucnv2wb6"]
+[gd_scene load_steps=15 format=4 uid="uid://gg2uucnv2wb6"]
 
 [ext_resource type="Script" uid="uid://2hbcokm3gxq2" path="res://Scripts/level.gd" id="1_0f350"]
 [ext_resource type="Texture2D" uid="uid://brjeyqfxwikr4" path="res://Assets/Tiny Swords (Free Pack)/Terrain/Tilemap_color1.png" id="1_k5f4k"]
@@ -10,6 +10,7 @@
 [ext_resource type="PackedScene" uid="uid://oarxe8h60u2s" path="res://Scenes/bot2.tscn" id="7_8c0lf"]
 [ext_resource type="PackedScene" uid="uid://f4g4x50pgnai" path="res://Scenes/round_interference.tscn" id="9_bvt00"]
 [ext_resource type="FontFile" uid="uid://wc0ocly7m8dl" path="res://Assets/canterbury/Canterbury.ttf" id="10_oqgf2"]
+[ext_resource type="AudioStream" uid="uid://bs4sd50357fth" path="res://audio/battle.mp3" id="11_qxfql"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_bvt00"]
 texture = ExtResource("1_k5f4k")
@@ -258,10 +259,10 @@ texture = ExtResource("1_tumq0")
 centered = false
 
 [node name="BlueHouse" parent="." instance=ExtResource("4_754fn")]
-position = Vector2(201, 813)
+position = Vector2(201, 793)
 
 [node name="YellowHouse" parent="." instance=ExtResource("4_754fn")]
-position = Vector2(1748, 803)
+position = Vector2(1748, 783)
 
 [node name="RedHouse" parent="." instance=ExtResource("4_754fn")]
 position = Vector2(1325, 160)
@@ -270,10 +271,10 @@ position = Vector2(1325, 160)
 position = Vector2(343, 177)
 
 [node name="Player" parent="." instance=ExtResource("3_6phgx")]
-position = Vector2(201, 813)
+position = Vector2(201, 793)
 
 [node name="Player2" parent="." instance=ExtResource("4_81xng")]
-position = Vector2(1748, 803)
+position = Vector2(1748, 783)
 
 [node name="bot1" parent="." instance=ExtResource("5_wqkje")]
 position = Vector2(343, 177)
@@ -347,6 +348,10 @@ text = "Round: 1"
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_oqgf2")
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("11_qxfql")
+parameters/looping = true
 
 [connection signal="body_entered" from="Layer1" to="." method="_on_layer_1_body_entered"]
 [connection signal="body_exited" from="Layer1" to="." method="_on_layer_1_body_exited"]

@@ -232,6 +232,7 @@ func _enter_attack_state() -> void:
 	attack_ongoing = true
 	attack_timer.start()
 	anim.play("attack")
+	$AudioStreamPlayer2.play()
 
 func _enter_guard_state() -> void:
 	state = GUARD
@@ -249,6 +250,7 @@ func _enter_dash_state() -> void:
 		sprite.rotation = PI/9
 	elif velocity.x < 0:
 		sprite.rotation = -PI/9
+	$AudioStreamPlayer3.play()
 	dash_ongoing = true
 	can_dash = false
 	dash_cooldown.start()
@@ -257,6 +259,7 @@ func _enter_dash_state() -> void:
 func enter_dead_state() -> void:
 	state = DEAD
 	anim.play("death")
+	$AudioStreamPlayer.play()
 	await anim.animation_finished
 	dead = true
 	emit_signal("bot2_dead")
