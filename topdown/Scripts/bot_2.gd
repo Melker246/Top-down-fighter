@@ -17,6 +17,7 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var attack_area: Area2D = $AttackArea
 @onready var heal_effect: Sprite2D = $HealEffect
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var bot_movement_input = Vector2(0,0)
 var bot_attack_or_guard_input = 0
@@ -101,16 +102,10 @@ func get_input():
 	else:
 		if player1_pos is Vector2:
 			distance_to_player1 = sqrt((player1_pos.x-position.x)**2+(player1_pos.y-position.y)**2)
-		else:
-			distance_to_player1 = 4095
 		if player2_pos is Vector2:
 			distance_to_player2 = sqrt((player2_pos.x-position.x)**2+(player2_pos.y-position.y)**2)
-		else:
-			distance_to_player2 = 4095
 		if bot1_pos is Vector2:
 			distance_to_bot1 = sqrt((bot1_pos.x-position.x)**2+(bot1_pos.y-position.y)**2)
-		else:
-			distance_to_bot1 = 4095
 		if distance_to_player1 < distance_to_player2 and distance_to_player1 < distance_to_bot1:
 			navigation_agent.target_position = player1_pos
 			if distance_to_player1 < 70:
@@ -263,6 +258,7 @@ func enter_dead_state() -> void:
 	await anim.animation_finished
 	dead = true
 	emit_signal("bot2_dead")
+	collision_shape.disabled = true
 	global_position = Vector2(-2000,-2000)
 	velocity = Vector2(0,0)
 

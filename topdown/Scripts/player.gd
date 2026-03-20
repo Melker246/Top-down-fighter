@@ -16,6 +16,7 @@ const GUARD_MOVEMENT_DEBUFF = 0.2
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var attack_area: Area2D = $AttackArea
 @onready var heal_effect: Sprite2D = $HealEffect
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 var hp = 100
 var damage = 50
@@ -123,14 +124,11 @@ func _attack_state(delta) -> void:
 	_movement(delta, input, ATTACK_MOVEMENT_DEBUFF*speed)
 	if body_inside_attack >= 1 and can_attack and attack_ongoing:
 		can_attack = false
-		print(layer1, layer2, layer3)
 		for body in attacked_body:
 			if body is House or body is Tower:
-				print(3)
 				if team != body.team:
 					body.destroy()
 			elif (body.layer1 and layer1) or (body.layer2 and layer2) or (body.layer3 and layer3):
-				print(1)
 				if not body.guard_ongoing:
 					body.hp -= damage
 				elif body.deflect:
@@ -221,7 +219,8 @@ func enter_dead_state() -> void:
 	await anim.animation_finished
 	dead = true
 	emit_signal("player1_dead")
-	global_position = Vector2(-1000,-1000)
+	collision_shape.disabled = true
+	global_position = Vector2(-3000,-3000)
 	velocity = Vector2(0,0)
 
 

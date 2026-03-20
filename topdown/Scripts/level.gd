@@ -177,6 +177,10 @@ func _start_new_round():
 	player2.dead = false
 	bot1.dead = false
 	bot2.dead = false
+	player1.collision_shape.disabled = false
+	player2.collision_shape.disabled = false
+	bot1.collision_shape.disabled = false
+	bot2.collision_shape.disabled = false
 	player1.enter_idle_state()
 	player2.enter_idle_state()
 	bot1.enter_idle_state()
