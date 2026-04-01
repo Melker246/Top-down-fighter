@@ -59,7 +59,7 @@ var monks = []
 
 var round = 1
 
-func _ready() -> void:
+func _ready() -> void: #Setup the game by giving houses colours and connecting signals
 	$AudioStreamPlayer.play()
 	players = [player1,player2,bot1,bot2]
 	blue_house.blue()
@@ -87,6 +87,7 @@ func _physics_process(delta: float) -> void:
 	bot2.player2_pos = player2.position
 	bot1.bot2_pos = bot2.position
 	bot2.bot1_pos = bot1.position
+	#Give bots the postion of the others to enable them to create an input
 	
 	for player in players:
 		if player in $Layer1.get_overlapping_bodies():
@@ -101,12 +102,26 @@ func _physics_process(delta: float) -> void:
 			player.layer3 = true
 		else:
 			player.layer3 = false
+	#Update the layers that the players are on
 	
 	for lancer in lancers:
+		if lancer in $Layer1.get_overlapping_bodies():
+			lancer.layer1 = true
+		else:
+			lancer.layer1 = false
+		if lancer in $Layer2.get_overlapping_bodies():
+			lancer.layer2 = true
+		else:
+			lancer.layer2 = false
+		if lancer in $Layer3.get_overlapping_bodies():
+			lancer.layer3 = true
+		else:
+			lancer.layer3 = false
 		lancer.player_position = players[lancer.team-1].global_position
 		for player in lancer.target_players:
 			lancer.target_players_positions = []
 			lancer.target_players_positions.append(players[player-1].global_position)
+	#Give lancers their layer and give them the postions of the players that are inside their detector area
 	
 	if blue_tower is StaticBody2D:
 		if blue_tower.can_shoot:
@@ -123,10 +138,11 @@ func _physics_process(delta: float) -> void:
 	if red_tower is StaticBody2D:
 		if red_tower.can_shoot:
 			red_tower.shoot_players(player2,bot1,player1)
+	#If a tower can shoot, shoot
 
-func _round_over():
+func _round_over(): #When a round is over and upgrades are to be choosen
 	round += 1
-	for player in players:
+	for player in players: #Give the winning player their win
 			if not player.dead:
 				if player.team == 1:
 					Globals.blue_wins += 1
@@ -136,8 +152,8 @@ func _round_over():
 					Globals.black_wins += 1
 				elif player.team == 4:
 					Globals.red_wins += 1
-	if round >= 15:
-		MenuManager.game_over()
+	if round >= 14: #If the game is 14 rounds deep end it as that is the desired amount of rounds (14 days is a fortnight which is funny because the game is called fortknights)
+		MenuManager.game_over() #Let menu manager know the game is over
 	else:
 		round_interference.show()
 		player_chosing_upgrades = 1
@@ -159,8 +175,9 @@ func _round_over():
 			bot2_speed_upgrades += 1
 		else:
 			bot2_team_upgrades += 1
+	#Upgrades being choosen
 
-func _start_new_round():
+func _start_new_round(): #Everything that has to be done for the next round to start, reset the upgrades and add the new ones, put back the players to their base state
 	_reset_upgrades(player1)
 	_reset_upgrades(player2)
 	_reset_upgrades(bot1)
@@ -188,7 +205,7 @@ func _start_new_round():
 	_labels()
 	_add_uppgrades()
 
-func _reset_upgrades(player):
+func _reset_upgrades(player): #Remove the upgrades from the precious round to so the upgrades can be given all at the same time, since it can be things that died/survived
 	player.hp = 100
 	player.damage = 50
 	player.speed = 1
@@ -199,10 +216,10 @@ func _reset_upgrades(player):
 		monks.erase(monk)
 		monk.queue_free()
 
-func _add_uppgrades():
-	if player1_health_upgrades >= 1:
+func _add_uppgrades(): #Add the upgrades
+	if player1_health_upgrades >= 1: #Add upgrades for player1
 		player1.hp *= 1.5
-		if player1_health_upgrades >= 2:
+		if player1_health_upgrades >= 2: #If health upgrades are choosen more than twice give the monk and then the reapeting upgrade after 
 			monk = MONK_SCENE.instantiate()
 			add_child(monk)
 			monk.team = 1
@@ -222,7 +239,7 @@ func _add_uppgrades():
 			player1.dash = true
 			player1.speed *= 1.1 ** (player1_speed_upgrades - 2)
 	if player1_team_upgrades >= 1:
-		if not blue_tower is StaticBody2D:
+		if not blue_tower is StaticBody2D: #If it is the first time the tower is being spawned
 			blue_tower = ARCHER_TOWER_SCENE.instantiate()
 			add_child(blue_tower)
 			blue_tower.connect("dead", _on_house_dead)
@@ -230,22 +247,22 @@ func _add_uppgrades():
 			blue_house.hide()
 			blue_house.collishon_shape.disabled = true
 			blue_tower.position = blue_house.global_position
-		else:
+		else: #If the tower is already spawned in but needs to be rebuilt 
 			blue_tower.rebuild()
 			blue_house.hide()
 			blue_house.collishon_shape.disabled = true
 		var amount_lancers = int(player1_team_upgrades / 2)
-		while amount_lancers > 0:
+		while amount_lancers > 0: #Add a lancer for every 2 team upgrades
 			lancer = LANCER_SCENE.instantiate()
 			add_child(lancer)
 			lancer.team = 1
-			lancer.position = blue_house.global_position + Vector2(0,amount_lancers*40)
+			lancer.position = blue_house.global_position + Vector2(0,amount_lancers*40) #Spawn each lancer slightly below the last one so they dont push eaach other like crazy
 			lancer.setup()
 			lancer.connect("lancer_dead", _on_lancer_dead)
 			lancers.append(lancer)
 			amount_lancers -= 1
 	
-	if player2_health_upgrades >= 1:
+	if player2_health_upgrades >= 1: #Add upgrades for player2
 		player2.hp *= 1.5
 		if player2_health_upgrades >= 2:
 			monk = MONK_SCENE.instantiate()
@@ -289,7 +306,7 @@ func _add_uppgrades():
 			lancers.append(lancer)
 			amount_lancers -= 1
 
-	if bot1_health_upgrades >= 1:
+	if bot1_health_upgrades >= 1: #Add upgrades for bot1
 		bot1.hp *= 1.5
 		if bot1_health_upgrades >= 2:
 			monk = MONK_SCENE.instantiate()
@@ -333,7 +350,7 @@ func _add_uppgrades():
 			lancers.append(lancer)
 			amount_lancers -= 1
 	
-	if bot2_health_upgrades >= 1:
+	if bot2_health_upgrades >= 1: #Add upgrades for bot2
 		bot2.hp *= 1.5
 		if bot2_health_upgrades >= 2:
 			monk = MONK_SCENE.instantiate()
@@ -377,7 +394,7 @@ func _add_uppgrades():
 			lancers.append(lancer)
 			amount_lancers -= 1
 
-func _labels():
+func _labels(): #Update the win counter
 	black_label.text = " Black Wins: " + str(Globals.black_wins)
 	blue_label.text = " Blue Wins: " + str(Globals.blue_wins)
 	yellow_label.text = " Yellow Wins: " + str(Globals.yellow_wins)
@@ -385,7 +402,7 @@ func _labels():
 	round_label.text = "Round: " + str(round)
 	
 
-func _on_house_dead(team):
+func _on_house_dead(team): #When the house dies kill the player (and monk) on the same team
 	if team == 1:
 		if not player1.dead:
 			player1.enter_dead_state()
@@ -415,7 +432,7 @@ func _on_house_dead(team):
 				monks.erase(monk)
 				monk.queue_free()
 
-func _on_bot1_dead():
+func _on_bot1_dead(): #when bot1 dies check if 3 players are dead and the round should be over and start to kill the lancers, but they will have some time to get revenge hehehehe
 	var dead_players = 0
 	for player in players:
 		if player.dead:
@@ -463,7 +480,7 @@ func _on_player2_dead():
 	if dead_players >= 3:
 		_round_over()
 
-func _health_button_pressed():
+func _health_button_pressed(): #Add health upgrades to the player choosing upgrade when the health button is pressed
 	if player_chosing_upgrades == 1:
 		player1_health_upgrades += 1
 		player_chosing_upgrades += 1
@@ -507,10 +524,10 @@ func _team_button_pressed():
 		round_interference.update_text(player1_health_upgrades,player1_attack_upgrades,player1_speed_upgrades,player1_team_upgrades,player2_health_upgrades,player2_attack_upgrades,player2_speed_upgrades,player2_team_upgrades)
 		_start_new_round()
 
-func _on_lancer_dead(lancer):
+func _on_lancer_dead(lancer): #When a lancer dies remove it from the lancer list and then remove the lancer completly
 	lancers.erase(lancer)
 	lancer.queue_free()
 
-func _on_heal(team, amount, monk):
+func _on_heal(team, amount): #Heal the player
 	players[team-1].hp += amount
 	players[team-1].heal()

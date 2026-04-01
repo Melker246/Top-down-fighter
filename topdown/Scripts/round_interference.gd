@@ -4,6 +4,7 @@ signal health_button_pressed
 signal attack_button_pressed
 signal speed_button_pressed
 signal team_button_pressed
+#signals for when buttons are pressed to the level
 
 @onready var health_button: Button = $HBoxContainer/HealthButton
 @onready var attack_button: Button = $HBoxContainer/AttackButton
@@ -12,8 +13,10 @@ signal team_button_pressed
 @onready var label: Label = $Label
 
 var player_chosing = 1
+#if odd player one is choosing, if even player two
 
 func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2atta_upg, p2spee_upg, p2team_upg):
+	#update the text on the button, depending on which player is choosing and their upgrades (the upgrades are diffrent for the first and second time)
 	if player_chosing % 2 == 1:
 		if p1heal_upg == 1:
 			health_button.text = "Health
@@ -143,7 +146,7 @@ func update_text(p1heal_upg, p1atta_upg, p1spee_upg, p1team_upg, p2heal_upg, p2a
 
 
 
-func _on_health_button_pressed() -> void:
+func _on_health_button_pressed() -> void: #change text of who is choosing and tell the level that someone just choose this upgrade, the level and this script keeps track who sepratly
 	player_chosing += 1
 	emit_signal("health_button_pressed")
 	if player_chosing % 2 == 1:
@@ -151,7 +154,7 @@ func _on_health_button_pressed() -> void:
 	else:
 		label.text = "Yellow Player"
 
-func _on_attack_button_pressed() -> void:
+func _on_attack_button_pressed() -> void: #change text of who is choosing and tell the level that someone just choose this upgrade, the level and this script keeps track who sepratly
 	player_chosing += 1
 	emit_signal("attack_button_pressed")
 	if player_chosing % 2 == 1:
@@ -159,7 +162,7 @@ func _on_attack_button_pressed() -> void:
 	else:
 		label.text = "Yellow Player"
 
-func _on_speed_button_pressed() -> void:
+func _on_speed_button_pressed() -> void: #change text of who is choosing and tell the level that someone just choose this upgrade, the level and this script keeps track who sepratly
 	player_chosing += 1
 	emit_signal("speed_button_pressed")
 	if player_chosing % 2 == 1:
@@ -167,7 +170,7 @@ func _on_speed_button_pressed() -> void:
 	else:
 		label.text = "Yellow Player"
 
-func _on_team_button_pressed() -> void:
+func _on_team_button_pressed() -> void: #change text of who is choosing and tell the level that someone just choose this upgrade, the level and this script keeps track who sepratly
 	player_chosing += 1
 	emit_signal("team_button_pressed")
 	if player_chosing % 2 == 1:
