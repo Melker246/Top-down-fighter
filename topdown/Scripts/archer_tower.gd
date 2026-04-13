@@ -18,6 +18,7 @@ signal dead
 #The team of the archer tower, used to make sure it doesn't deal damage to its own player
 var team = 0
 
+
 #variables to keep track of the state of the tower
 var can_shoot = true
 var destroyed = false
